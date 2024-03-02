@@ -13,6 +13,12 @@ export default function Prescription() {
 
     const [slectedCustomer, setCustomer] = useState(null);
 
+    const selectedDoctor={
+        doctorId:1,
+        name :"Thushara",
+        salary: 33.9,
+        description :"Bachelor of Veterinary Science (BVSc) | UOC"
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -59,7 +65,7 @@ export default function Prescription() {
                     <div className="m-2">
                         {
                            slectedCustomer && selectedPet &&  (
-                            <PetCard pet={selectedPet} customer={slectedCustomer} ></PetCard>
+                            <PetCard pet={selectedPet} customer={slectedCustomer} />
                             )
                         }
                        
@@ -81,7 +87,11 @@ export default function Prescription() {
                 </div>
                 <div className="col-lg-3 ">
                     <div className="m-2">
-                        <DoctorCard />
+                        {
+                            selectedDoctor &&
+                            (<DoctorCard doctor={selectedDoctor}/>)
+                        }
+                        
                     </div>
                 </div>
 
