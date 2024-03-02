@@ -1,8 +1,16 @@
 import './PetCard.css';
-export default function PetCard(){
+export default function PetCard({pet,customer}){
     return(
         <div className=" sizeContainer card ">
-            <p>Make Pet Card here</p>
+            <div>
+            Pet Owner : {customer.firstName} {customer.lastName}
+            </div>
+
+            <div>
+             Pet Name : {pet.petName}
+            </div>
+            
+        
         </div>
     )
 }

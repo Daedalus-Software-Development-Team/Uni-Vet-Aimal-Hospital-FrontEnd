@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import DoctorCard from "../DoctorCard/DoctorCard";
 import PetCard from "../PetCard/PetCard";
 import NavBar from "../NavBar/NavBar";
@@ -7,8 +8,47 @@ import refreshImage from '../../img/refresh.png'
 import printerImage from '../../img/printer.png'
 import phamacyImage from '../../img/phamacy.png'
 export default function Prescription() {
+    const [pets, setPets] = useState(null);
+    const [selectedPet, setSelectedPet] = useState(null);
 
+    const [slectedCustomer, setCustomer] = useState(null);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            try {
+                const response = await fetch("http://localhost:8080/pet");
+                const data = await response.json();
+                console.log(data)
+
+                setPets(data);
+
+            } catch (error) {
+
+                console.log("Error fetching pet data:", error);
+            }
+
+            if(selectedPet !=null){
+                try {
+                    const responseCust = await fetch(`http://localhost:8080/customer/${selectedPet.customerId}`);
+                    const dataCust = await responseCust.json();
+                    console.log(dataCust)
     
+                    setCustomer(dataCust);
+    
+                } catch (error) {
+    
+                    console.log("Error fetching customer data:", error);
+                }
+            }
+
+        };
+        fetchData();
+       
+    }, [selectedPet]);
+
+
     return (
         <div className="container-fluid g-0 ">
             <div className="row g-0 m-0">
@@ -17,7 +57,12 @@ export default function Prescription() {
                 </div>
                 <div className="col-lg-3">
                     <div className="m-2">
-                        <PetCard />
+                        {
+                           slectedCustomer && selectedPet &&  (
+                            <PetCard pet={selectedPet} customer={slectedCustomer} ></PetCard>
+                            )
+                        }
+                       
                     </div>
 
 
@@ -53,7 +98,7 @@ export default function Prescription() {
                     <div class="input-group mt-2 mb-3 ">
 
                         <div className="className  shadow-lg makeRoundedContainer col-11">
-                            <input type="text" class="form-control borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" />
+                            <input type="text" onFocus={() => { setSelectedPet(null) }} class="form-control borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" value={(selectedPet && selectedPet.petId + "-" + selectedPet.petName) || (!selectedPet && null)}></input>
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -62,11 +107,10 @@ export default function Prescription() {
                                 <span class="visually-hidden">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                {pets && pets.map((pet) => (
+                                    <button onClick={() => { setSelectedPet(pet)}} className='btn btn-light w-100'>{pet.petId} - {pet.petName} </button>
+                                ))}
 
-                                <li><a class="dropdown-item" href="#">Separated link</a></li>
                             </ul>
                         </div>
 
@@ -129,7 +173,7 @@ export default function Prescription() {
                     <div class="input-group mb-3  ">
 
                         <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="text" class="form-control borderColor rounded" placeholder="Quantity per Day" aria-label="Amount (to the nearest dollar)" />
+                            <input type="text" class="form-control borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
                         </div>
 
                         <div class="btn-group col-1 ">
