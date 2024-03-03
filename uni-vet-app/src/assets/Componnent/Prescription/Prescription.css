@@ -19,3 +19,7 @@
 .btnColor{
     background-color: #E9ECEF !important;
 }
+input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+         -webkit-appearance: none;
+      }
