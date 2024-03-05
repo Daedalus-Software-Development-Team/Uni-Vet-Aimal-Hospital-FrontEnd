@@ -48,7 +48,7 @@ export default function Prescription() {
         if (selectedMedicine != null) {
             data.medicineName = selectedMedicine.medicineName;
             data.medicineId = selectedMedicine.medicineId;
-            data.price = selectedMedicine.price;
+            data.price = parseFloat(selectedMedicine.price);
         } else {
             data.medicineId = "New" + "(" + newId + ")";
             setNewId(newId + 1);
@@ -93,15 +93,7 @@ export default function Prescription() {
     function addPrescriptionDetail(perscriptionDetail) {
 
         let newDetail = true;
-        for (let i = 0; i < prescriptionDetailArray.length; i++) {
-            if (prescriptionDetailArray[i].medicineId === perscriptionDetail.medicineId) {
-                let spliced = prescriptionDetailArray.splice(i, 1, perscriptionDetail);
-                newDetail = false;
-
-                console.log("Removed element: " + spliced);
-                console.log(prescriptionDetailArray);
-            }
-        }
+        
 
         if (newDetail) {
             const updatedPrescriptionDetailArray = [...prescriptionDetailArray, perscriptionDetail];
@@ -136,13 +128,15 @@ export default function Prescription() {
         setSelectedMedicine({
             medicineId: data.medicineId,
             medicineName: data.medicineName,
-            price: data.price
+            price: parseFloat(data.price)
         });
+        reset(); 
+        
         document.getElementById('medName').value = data.medicineName;
         document.getElementById('dos').value = data.dosage;
-        document.getElementById('qty').value = data.dailQuantity;
+        document.getElementById('qty').value = data.dailyQuantity;
         document.getElementById('days').value = data.days;
-        document.getElementById('price').value = data.price;
+        document.getElementById('price').value = parseFloat(data.price);
         document.getElementById('defaultCheck1').checked = data.available;
         if (data.beforeMeal != null) {
             document.getElementById('bMeal').checked = data.beforeMeal;
@@ -162,7 +156,7 @@ export default function Prescription() {
         let tot=0;
         for (let i = 0; i < array.length; i++) {
             if (array[i].available) {
-                tot+=array[i].price;
+                tot+=parseFloat(array[i].price);
             }
         }
         tot=tot+selectedDoctor.channelingFee;
@@ -172,6 +166,13 @@ export default function Prescription() {
     }
 
     function createPrescription(){
+
+        for (let i = 0; i < prescriptionDetailArray.length; i++) {
+            if (prescriptionDetailArray[i].medicineId.charAt(0) =='N') {
+                prescriptionDetailArray[i].medicineId=null;
+            }
+        }
+
         precription.customerId=slectedCustomer.customerId;
         precription.doctorId=selectedDoctor.doctorId;
         precription.description=document.getElementById('descriptionArea').value;
@@ -193,7 +194,7 @@ export default function Prescription() {
     function reSetToInitil(){
         
         document.getElementById('descriptionArea').value="";
-        document.getElementById('pet').value=";"
+        document.getElementById('pet').value="";
 
         setPrescriptionDetailArray([]);
         setSelectedPet(null);
@@ -383,7 +384,7 @@ export default function Prescription() {
                     <div class="input-group ">
 
                         <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="number" id="qty" {...register("dailQuantity")} class="form-control borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
+                            <input type="number" id="qty" {...register("dailyQuantity")} class="form-control borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -457,7 +458,7 @@ export default function Prescription() {
                 </div>
                 <div className="col-lg-2 m-2 mb-3">
                     <div className="className  shadow-lg makeRoundedContainer col-11">
-                        <input type="number" id="price" {...register("price")} onFocus={() => { setSelectedMedicine(null) }} class="form-control borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && selectedMedicine.price) || (!selectedMedicine && null)} />
+                        <input type="number" id="price" {...register("price")} onFocus={() => { setSelectedMedicine(null) }} class="form-control borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && parseFloat(selectedMedicine.price)) || (!selectedMedicine && null)} />
                     </div>
                 </div>
                 <div className="col-lg-3 d-flex align-items-center mb-2">
@@ -519,10 +520,10 @@ export default function Prescription() {
                                     <td >{data.medicineName}</td>
                                     <td>{data.dosage}</td>
                                     <td>{(data.beforeMeal == true && "Before Meal") || (data.beforeMeal == false && "After Meal") || ("Not Specified")}</td>
-                                    <td>{data.dailQuantity}</td>
+                                    <td>{data.dailyQuantity}</td>
                                     <td>{data.days}</td>
                                     <td>
-                                        {data.available == true && data.price}
+                                        {data.available == true && parseFloat(data.price)}
 
                                         {(data.available == true &&
                                             (<input class="btn btn-default active mb-1" type="checkbox" checked="checked" onClick={() => { data.available = false; setReloadTable(!reladTable); calculateTotal(prescriptionDetailArray);console.log(prescriptionDetailArray); setReloadTable(!reladTable) }} />))
