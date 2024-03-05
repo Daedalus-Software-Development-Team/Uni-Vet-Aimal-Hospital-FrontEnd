@@ -10,6 +10,7 @@ import phamacyImage from '../../img/phamacy.png'
 import updateImage from '../../img/update.png'
 import { useForm } from 'react-hook-form'
 import axios from 'axios';
+import Swal from 'sweetalert2'
 
 export default function Prescription() {
     const [pets, setPets] = useState(null);
@@ -33,12 +34,13 @@ export default function Prescription() {
 
     const [updateMode, setUpdateMode] = useState(false);
 
-    const precription ={
-        customerId : null,
-        doctorId:null,
-        description:null,
-        total:null,
-        prescriptionDetailArray:null
+    const precription = {
+        customerId: null,
+        doctorId: null,
+        petId: null,
+        description: null,
+        total: null,
+        prescriptionDetailArray: null
     }
 
 
@@ -53,6 +55,9 @@ export default function Prescription() {
             data.medicineId = "New" + "(" + newId + ")";
             setNewId(newId + 1);
         }
+        data.dosage = document.getElementById('dos').value;
+        data.dailyQuantity = document.getElementById('qty').value;
+        data.days = document.getElementById('days').value;
 
 
         console.log(meal);
@@ -85,15 +90,16 @@ export default function Prescription() {
         name: "Thushara",
         salary: 33.9,
         description: "Bachelor of Veterinary Science (BVSc) | UOC",
-        channelingFee:2000
+        channelingFee: 2000,
+
     }
-    
-    const [total ,setTotal]=useState(selectedDoctor.channelingFee);
+
+    const [total, setTotal] = useState(selectedDoctor.channelingFee);
 
     function addPrescriptionDetail(perscriptionDetail) {
 
         let newDetail = true;
-        
+
 
         if (newDetail) {
             const updatedPrescriptionDetailArray = [...prescriptionDetailArray, perscriptionDetail];
@@ -102,13 +108,13 @@ export default function Prescription() {
             console.log(prescriptionDetailArray);
             // console.log(updatedPrescriptionDetailArray);
             calculateTotal(updatedPrescriptionDetailArray);
-            
+
         } else {
             setReloadTable(!reladTable);
             setUpdateMode(false);
             calculateTotal(prescriptionDetailArray);
         }
-       
+
     }
 
 
@@ -130,8 +136,8 @@ export default function Prescription() {
             medicineName: data.medicineName,
             price: parseFloat(data.price)
         });
-        reset(); 
-        
+        reset();
+
         document.getElementById('medName').value = data.medicineName;
         document.getElementById('dos').value = data.dosage;
         document.getElementById('qty').value = data.dailyQuantity;
@@ -149,52 +155,62 @@ export default function Prescription() {
 
     }
 
-    function calculateTotal(array){
-    
+    function calculateTotal(array) {
+
         console.log("hi")
         console.log(array);
-        let tot=0;
+        let tot = 0;
         for (let i = 0; i < array.length; i++) {
             if (array[i].available) {
-                tot+=parseFloat(array[i].price);
+                tot += parseFloat(array[i].price);
             }
         }
-        tot=tot+selectedDoctor.channelingFee;
+        tot = tot + selectedDoctor.channelingFee;
         setTotal(tot);
         console.log(tot);
-        
+
     }
 
-    function createPrescription(){
+    function createPrescription() {
 
         for (let i = 0; i < prescriptionDetailArray.length; i++) {
-            if (prescriptionDetailArray[i].medicineId.charAt(0) =='N') {
-                prescriptionDetailArray[i].medicineId=null;
+            if ((prescriptionDetailArray[i].medicineId + "").charAt(0) == 'N') {
+                prescriptionDetailArray[i].medicineId = null;
             }
         }
 
-        precription.customerId=slectedCustomer.customerId;
-        precription.doctorId=selectedDoctor.doctorId;
-        precription.description=document.getElementById('descriptionArea').value;
-        precription.total=total;
-        precription.prescriptionDetailArray=prescriptionDetailArray
+        precription.customerId = slectedCustomer.customerId;
+        precription.doctorId = selectedDoctor.doctorId;
+        precription.petId = selectedPet.petId;
+        precription.description = document.getElementById('descriptionArea').value;
+        precription.total = total;
+        precription.prescriptionDetailArray = prescriptionDetailArray
 
         console.log(precription);
         postData();
 
     }
 
-    function postData(){
+    function postData() {
+        Swal.fire('Please wait')
+        Swal.showLoading();
         axios.post('http://localhost:8080/prescription', precription)
-          .then(function (response) {
-            console.log(response);
-            reSetToInitil();
-          })
+            .then(function (response) {
+                Swal.fire({
+                    title: "Sucess!",
+                    text: "Prescription Generated Sucessfully!",
+                    icon: "success"
+                  });
+                Swal.hideLoading();
+                console.log(response);
+                reSetToInitil();
+              
+            })
     }
-    function reSetToInitil(){
-        
-        document.getElementById('descriptionArea').value="";
-        document.getElementById('pet').value="";
+    function reSetToInitil() {
+
+        document.getElementById('descriptionArea').value = "";
+        document.getElementById('pet').value = "";
 
         setPrescriptionDetailArray([]);
         setSelectedPet(null);
@@ -248,18 +264,21 @@ export default function Prescription() {
 
                 console.log("Error fetching medicine data:", error);
             }
-            
+
 
         };
         fetchData();
 
     }, [selectedPet]);
 
-
+    
 
     return (
         <div className="container-fluid g-0 ">
             <div className="row g-0 m-0">
+                <div class="spinner-border" id="spinner" role="status">
+                    <span class="">Loading...</span>
+                </div>
                 <div className="col-lg-12 bg-warning g-0  ">
                     <NavBar />
                 </div>
@@ -368,11 +387,15 @@ export default function Prescription() {
                                 <span class="visually-hidden">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
 
-                                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                <button onClick={() => { document.getElementById('dos').value = "1 pill" }} className='btn btn-light w-100'>1 pill</button>
+                                <button onClick={() => { document.getElementById('dos').value = "2 pill" }} className='btn btn-light w-100'>2 pill</button>
+                                <button onClick={() => { document.getElementById('dos').value = "3 pill" }} className='btn btn-light w-100'>3 pill</button>
+                                <button onClick={() => { document.getElementById('dos').value = "2.5 ml" }} className='btn btn-light w-100'>2.5 ml</button>
+                                <button onClick={() => { document.getElementById('dos').value = "5 ml" }} className='btn btn-light w-100'>5 ml</button>
+                                <button onClick={() => { document.getElementById('dos').value = "7.5 ml" }} className='btn btn-light w-100'>7.5 ml</button>
+
+
                             </ul>
                         </div>
 
@@ -393,11 +416,12 @@ export default function Prescription() {
                                 <span class="visually-hidden">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-
-                                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                <button onClick={() => { document.getElementById('qty').value = 1 }} className='btn btn-light w-100'>1 </button>
+                                <button onClick={() => { document.getElementById('qty').value = 2 }} className='btn btn-light w-100'>2 </button>
+                                <button onClick={() => { document.getElementById('qty').value = 3 }} className='btn btn-light w-100'>3 </button>
+                                <button onClick={() => { document.getElementById('qty').value = 4 }} className='btn btn-light w-100'>4</button>
+                                <button onClick={() => { document.getElementById('qty').value = 5 }} className='btn btn-light w-100'>5 </button>
+                                <button onClick={() => { document.getElementById('qty').value = 6 }} className='btn btn-light w-100'>6</button>
                             </ul>
                         </div>
 
@@ -418,20 +442,21 @@ export default function Prescription() {
                                 <span class="visually-hidden">Toggle Dropdown</span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-
-                                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                                <button onClick={() => { document.getElementById('days').value = 1 }} className='btn btn-light w-100'>1 </button>
+                                <button onClick={() => { document.getElementById('days').value = 2 }} className='btn btn-light w-100'>2 </button>
+                                <button onClick={() => { document.getElementById('days').value = 3 }} className='btn btn-light w-100'>3 </button>
+                                <button onClick={() => { document.getElementById('days').value = 4 }} className='btn btn-light w-100'>4</button>
+                                <button onClick={() => { document.getElementById('days').value = 5 }} className='btn btn-light w-100'>5 </button>
+                                <button onClick={() => { document.getElementById('days').value = 6 }} className='btn btn-light w-100'>6</button>
                             </ul>
                         </div>
 
                     </div>
                 </div>
-                <div className="col-lg-1 ">
+                <div className="col-lg-1">
                     <div className="container d-flex align-items-center m-2">
-                        <div className="row">
-                            <div className="col-6">
+                        <div className="row ">
+                            <div className="col-6  ">
                                 {updateMode && (
                                     <button onClick={handleSubmit(submit)} className="btn btn-light p-0 m-0 g-0">
                                         <img height="40px" src={updateImage}></img>
@@ -492,6 +517,7 @@ export default function Prescription() {
 
                 </div>
 
+
             </div>
             <div className="row">
                 <div className="col-lg-1"></div>
@@ -526,7 +552,7 @@ export default function Prescription() {
                                         {data.available == true && parseFloat(data.price)}
 
                                         {(data.available == true &&
-                                            (<input class="btn btn-default active mb-1" type="checkbox" checked="checked" onClick={() => { data.available = false; setReloadTable(!reladTable); calculateTotal(prescriptionDetailArray);console.log(prescriptionDetailArray); setReloadTable(!reladTable) }} />))
+                                            (<input class="btn btn-default active mb-1" type="checkbox" checked="checked" onClick={() => { data.available = false; setReloadTable(!reladTable); calculateTotal(prescriptionDetailArray); console.log(prescriptionDetailArray); setReloadTable(!reladTable) }} />))
                                             || (<input class="btn btn-default active mb-1" type="checkbox" onClick={() => { data.available = true; setReloadTable(!reladTable); calculateTotal(prescriptionDetailArray); console.log(prescriptionDetailArray) }} />)
                                         }</td>
                                     <td className='d-flex justify-content-center'>
@@ -555,13 +581,13 @@ export default function Prescription() {
 
                     <div className="container">
                         <div className="row">
-                             <div className="col-lg-12"><hr></hr>  </div>
+                            <div className="col-lg-12"><hr></hr>  </div>
                             <div className="col-lg-8">Channeling fee</div>
                             <div className="col-lg-4">{selectedDoctor.channelingFee}</div>
-                            <div className="col-lg-12"><hr  className='brokenRuler'></hr>  </div>
+                            <div className="col-lg-12"><hr className='brokenRuler'></hr>  </div>
                             <div className="col-lg-8">Total</div>
                             <div className="col-lg-4">{total}</div>
-                       
+
                             <div className="col-lg-12"><hr ></hr> </div>
                             <div className="col-lg-12">
                                 <button onClick={createPrescription} className="btn btn-primary rounded-pill btn-lg m-2 w-100">
