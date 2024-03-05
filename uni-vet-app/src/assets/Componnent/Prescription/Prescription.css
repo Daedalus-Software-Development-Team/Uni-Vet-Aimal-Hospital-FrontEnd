@@ -27,3 +27,7 @@ input::-webkit-outer-spin-button,
 hr.brokenRuler {
     border-top: 1.5px dashed ;
 }
+
+#spinner {
+    display: none;
+ }
