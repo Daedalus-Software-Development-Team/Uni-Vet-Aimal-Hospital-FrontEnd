@@ -7,7 +7,9 @@ import addImage from '../../img/add.png'
 import refreshImage from '../../img/refresh.png'
 import printerImage from '../../img/printer.png'
 import phamacyImage from '../../img/phamacy.png'
+import updateImage from '../../img/update.png'
 import { useForm } from 'react-hook-form'
+import axios from 'axios';
 
 export default function Prescription() {
     const [pets, setPets] = useState(null);
@@ -23,38 +25,42 @@ export default function Prescription() {
 
     const [avalable, setAvailable] = useState(false);
 
-    const [reladTable ,setReloadTable]=useState(true);
+    const [reladTable, setReloadTable] = useState(true);
 
-    const { handleSubmit, register, reset , formState: { errors } } = useForm();
+    const { handleSubmit, register, reset, formState: { errors } } = useForm();
+
+    const [newId, setNewId] = useState(0);
+
+    const [updateMode, setUpdateMode] = useState(false);
+
+    const precription ={
+        customerId : null,
+        doctorId:null,
+        description:null,
+        total:null,
+        prescriptionDetailArray:null
+    }
 
 
-
-
-    // let perscriptionDetail = {
-    //     prescriptionDetailId: null,
-    //     prescriptionId: null,
-    //     medicineId: null,
-    //     available: null,
-    //     beforeMeal: null,
-    //     quantity: null,
-    //     days: null
-    // }
     const submit = (data) => {
-        data.beforeOrAfterMeal = meal;
+        data.beforeMeal = meal;
         data.available = avalable;
         if (selectedMedicine != null) {
             data.medicineName = selectedMedicine.medicineName;
             data.medicineId = selectedMedicine.medicineId;
-            data.price = selectedMedicine.price;
+            data.price = parseFloat(selectedMedicine.price);
         } else {
-            data.medicineId = null;
+            data.medicineId = "New" + "(" + newId + ")";
+            setNewId(newId + 1);
         }
+
 
         console.log(meal);
         console.log(data);
+
         addPrescriptionDetail(data);
         resetForm();
-  
+
     }
 
     const resetForm = () => {
@@ -62,28 +68,144 @@ export default function Prescription() {
         setMeal(null);
         setAvailable(false);
         reset(); // Reset react-hook-form fields
-        document.getElementById('medName').value=null;
-        document.getElementById('dos').value=null;
-        document.getElementById('qty').value=null;
-        document.getElementById('days').value=null;
-        document.getElementById('price').value=null;
-        document.getElementById('defaultCheck1').checked=false;
-        document.getElementById('bMeal').checked=null;
-        document.getElementById('aMeal').checked=null;
+        document.getElementById('medName').value = null;
+        document.getElementById('dos').value = null;
+        document.getElementById('qty').value = null;
+        document.getElementById('days').value = null;
+        document.getElementById('price').value = null;
+        document.getElementById('defaultCheck1').checked = false;
+        document.getElementById('bMeal').checked = null;
+        document.getElementById('aMeal').checked = null;
+
+        setUpdateMode(false);
     }
 
     const selectedDoctor = {
         doctorId: 1,
         name: "Thushara",
         salary: 33.9,
-        description: "Bachelor of Veterinary Science (BVSc) | UOC"
+        description: "Bachelor of Veterinary Science (BVSc) | UOC",
+        channelingFee:2000
     }
+    
+    const [total ,setTotal]=useState(selectedDoctor.channelingFee);
 
     function addPrescriptionDetail(perscriptionDetail) {
-        const updatedPrescriptionDetailArray = [...prescriptionDetailArray, perscriptionDetail];
-        setPrescriptionDetailArray(updatedPrescriptionDetailArray);
-        console.log(updatedPrescriptionDetailArray);
+
+        let newDetail = true;
         
+
+        if (newDetail) {
+            const updatedPrescriptionDetailArray = [...prescriptionDetailArray, perscriptionDetail];
+            setPrescriptionDetailArray(updatedPrescriptionDetailArray);
+            console.log("hello");
+            console.log(prescriptionDetailArray);
+            // console.log(updatedPrescriptionDetailArray);
+            calculateTotal(updatedPrescriptionDetailArray);
+            
+        } else {
+            setReloadTable(!reladTable);
+            setUpdateMode(false);
+            calculateTotal(prescriptionDetailArray);
+        }
+       
+    }
+
+
+    function deleteMedicineDetail(data) {
+        for (let i = 0; i < prescriptionDetailArray.length; i++) {
+            if (prescriptionDetailArray[i].medicineId === data.medicineId) {
+                let spliced = prescriptionDetailArray.splice(i, 1);
+                console.log("Removed element: " + spliced);
+                console.log(prescriptionDetailArray);
+            }
+        }
+        setReloadTable(!reladTable);
+        calculateTotal(prescriptionDetailArray);
+    }
+
+    function setDetailToUpdate(data) {
+        setSelectedMedicine({
+            medicineId: data.medicineId,
+            medicineName: data.medicineName,
+            price: parseFloat(data.price)
+        });
+        reset(); 
+        
+        document.getElementById('medName').value = data.medicineName;
+        document.getElementById('dos').value = data.dosage;
+        document.getElementById('qty').value = data.dailyQuantity;
+        document.getElementById('days').value = data.days;
+        document.getElementById('price').value = parseFloat(data.price);
+        document.getElementById('defaultCheck1').checked = data.available;
+        if (data.beforeMeal != null) {
+            document.getElementById('bMeal').checked = data.beforeMeal;
+            document.getElementById('aMeal').checked = !data.beforeMeal;
+        } else {
+            document.getElementById('bMeal').checked = null;
+            document.getElementById('aMeal').checked = null;
+        }
+        setUpdateMode(true);
+
+    }
+
+    function calculateTotal(array){
+    
+        console.log("hi")
+        console.log(array);
+        let tot=0;
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].available) {
+                tot+=parseFloat(array[i].price);
+            }
+        }
+        tot=tot+selectedDoctor.channelingFee;
+        setTotal(tot);
+        console.log(tot);
+        
+    }
+
+    function createPrescription(){
+
+        for (let i = 0; i < prescriptionDetailArray.length; i++) {
+            if (prescriptionDetailArray[i].medicineId.charAt(0) =='N') {
+                prescriptionDetailArray[i].medicineId=null;
+            }
+        }
+
+        precription.customerId=slectedCustomer.customerId;
+        precription.doctorId=selectedDoctor.doctorId;
+        precription.description=document.getElementById('descriptionArea').value;
+        precription.total=total;
+        precription.prescriptionDetailArray=prescriptionDetailArray
+
+        console.log(precription);
+        postData();
+
+    }
+
+    function postData(){
+        axios.post('http://localhost:8080/prescription', precription)
+          .then(function (response) {
+            console.log(response);
+            reSetToInitil();
+          })
+    }
+    function reSetToInitil(){
+        
+        document.getElementById('descriptionArea').value="";
+        document.getElementById('pet').value="";
+
+        setPrescriptionDetailArray([]);
+        setSelectedPet(null);
+        setCustomer(null);
+        setSelectedMedicine(null);
+        setMeal(null)
+        setAvailable(false);
+        setReloadTable(true);
+        setNewId(0);
+        setUpdateMode(false);
+        setTotal(selectedDoctor.channelingFee);
     }
 
     useEffect(() => {
@@ -126,11 +248,13 @@ export default function Prescription() {
 
                 console.log("Error fetching medicine data:", error);
             }
+            
 
         };
         fetchData();
 
     }, [selectedPet]);
+
 
 
     return (
@@ -178,7 +302,7 @@ export default function Prescription() {
             <div className="row">
                 <div className="col-lg-5  m-2 ">
                     <div className="makeRoundedContainer shadow-lg">
-                        <textarea className="form-control  borderColor" id="exampleFormControlTextarea1" rows="3" placeholder="Reason for veterinary help"></textarea>
+                        <textarea className="form-control  borderColor" id="descriptionArea" rows="3" placeholder="Reason for veterinary help"></textarea>
                     </div>
                 </div>
                 <div className="col-lg-3"></div>
@@ -186,7 +310,7 @@ export default function Prescription() {
                     <div class="input-group mt-2 mb-3 ">
 
                         <div className="className  shadow-lg makeRoundedContainer col-11">
-                            <input type="text" onFocus={() => { setSelectedPet(null) }} class="form-control borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" value={(selectedPet && selectedPet.petId + "-" + selectedPet.petName) || (!selectedPet && null)}></input>
+                            <input type="text" id='pet' onFocus={() => { setSelectedPet(null) }} class="form-control borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" value={(selectedPet && selectedPet.petId + "-" + selectedPet.petName) || (!selectedPet && null)}></input>
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -260,7 +384,7 @@ export default function Prescription() {
                     <div class="input-group ">
 
                         <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="number" id="qty" {...register("dailQuantity")} class="form-control borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
+                            <input type="number" id="qty" {...register("dailyQuantity")} class="form-control borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -308,12 +432,21 @@ export default function Prescription() {
                     <div className="container d-flex align-items-center m-2">
                         <div className="row">
                             <div className="col-6">
-                                <button onClick={handleSubmit(submit)} className="btn btn-light p-0 m-0 g-0">
-                                    <img height="40px" src={addImage}></img>
-                                </button>
+                                {updateMode && (
+                                    <button onClick={handleSubmit(submit)} className="btn btn-light p-0 m-0 g-0">
+                                        <img height="40px" src={updateImage}></img>
+                                    </button>
+                                )
+
+                                    || !updateMode && (
+                                        <button onClick={handleSubmit(submit)} className="btn btn-light p-0 m-0 g-0">
+                                            <img height="40px" src={addImage}></img>
+                                        </button>
+                                    )}
+
                             </div>
                             <div className="col-6">
-                                <button className="btn btn-light p-0 m-0 g-0">
+                                <button onClick={resetForm} className="btn btn-light p-0 m-0 g-0">
                                     <img height="40px" src={refreshImage}></img>
                                 </button>
                             </div>
@@ -325,7 +458,7 @@ export default function Prescription() {
                 </div>
                 <div className="col-lg-2 m-2 mb-3">
                     <div className="className  shadow-lg makeRoundedContainer col-11">
-                        <input type="number" id="price" {...register("price")} onFocus={() => { setSelectedMedicine(null) }} class="form-control borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && selectedMedicine.price) || (!selectedMedicine && null)} />
+                        <input type="number" id="price" {...register("price")} onFocus={() => { setSelectedMedicine(null) }} class="form-control borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && parseFloat(selectedMedicine.price)) || (!selectedMedicine && null)} />
                     </div>
                 </div>
                 <div className="col-lg-3 d-flex align-items-center mb-2">
@@ -344,11 +477,11 @@ export default function Prescription() {
                             </div>
                             <div className="col-10">
                                 <div class="form-check form-check-inline">
-                                    <input {...register("beforeOrAfterMeal")} class="form-check-input" type="radio" onClick={() => { setMeal(true) }} name="inlineRadioOptions" id="bMeal" />
+                                    <input {...register("beforeMeal")} class="form-check-input" type="radio" onClick={() => { setMeal(true) }} name="inlineRadioOptions" id="bMeal" />
                                     <label class="form-check-label" for="inlineRadio1">Before meals</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input {...register("beforeOrAfterMeal")} class="form-check-input" type="radio" onClick={() => { setMeal(false) }} name="inlineRadioOptions" id="aMeal" />
+                                    <input {...register("beforeMeal")} class="form-check-input" type="radio" onClick={() => { setMeal(false) }} name="inlineRadioOptions" id="aMeal" />
 
                                     <label class="form-check-label" for="inlineRadio2">After meals</label>
                                 </div>
@@ -373,26 +506,41 @@ export default function Prescription() {
                                 <th scope="col">Daily Quantity</th>
                                 <th scope="col">Days</th>
                                 <th scope="col">Price</th>
-                
+                                <th scope="col">Option</th>
+
                             </tr>
                         </thead>
                         <tbody>
 
 
                             {prescriptionDetailArray && prescriptionDetailArray.map((data) => (
+
                                 <tr>
                                     <td >{(data.medicineId && data.medicineId) || (!data.medicineId && "New")}</td>
-                                    <td>{data.medicineName}</td>
+                                    <td >{data.medicineName}</td>
                                     <td>{data.dosage}</td>
-                                    <td>{(data.beforeOrAfterMeal == true && "Before Meal") || (data.beforeOrAfterMeal == false && "After Meal") || ("Not Specified")}</td>
-                                    <td>{data.dailQuantity}</td>
+                                    <td>{(data.beforeMeal == true && "Before Meal") || (data.beforeMeal == false && "After Meal") || ("Not Specified")}</td>
+                                    <td>{data.dailyQuantity}</td>
                                     <td>{data.days}</td>
                                     <td>
-                                        {data.price} {(data.available == true && 
-                                    ( <input  class="btn btn-default active mb-1" type="checkbox"  checked="checked" onClick={()=>{data.available=false; console.log(prescriptionDetailArray) ; setReloadTable(!reladTable)}} />))
-                                    || (<input  class="btn btn-default active mb-1" type="checkbox" onClick={()=>{data.available=true; console.log(prescriptionDetailArray)}}/>)
-                                    }</td>
-  
+                                        {data.available == true && parseFloat(data.price)}
+
+                                        {(data.available == true &&
+                                            (<input class="btn btn-default active mb-1" type="checkbox" checked="checked" onClick={() => { data.available = false; setReloadTable(!reladTable); calculateTotal(prescriptionDetailArray);console.log(prescriptionDetailArray); setReloadTable(!reladTable) }} />))
+                                            || (<input class="btn btn-default active mb-1" type="checkbox" onClick={() => { data.available = true; setReloadTable(!reladTable); calculateTotal(prescriptionDetailArray); console.log(prescriptionDetailArray) }} />)
+                                        }</td>
+                                    <td className='d-flex justify-content-center'>
+                                        <div >
+                                            <button onClick={() => { setDetailToUpdate(data) }} className="btn btn-light  p-2 me-2">
+                                                <i className="bi bi-arrow-up-square"></i>
+                                            </button>
+                                            <button onClick={() => { deleteMedicineDetail(data) }} className="btn btn-light p-2 ">
+                                                <i className="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+
+                                    </td>
+
                                 </tr>
                             ))}
 
@@ -407,13 +555,16 @@ export default function Prescription() {
 
                     <div className="container">
                         <div className="row">
-                            <div className="col-lg-12"><hr></hr>  </div>
+                             <div className="col-lg-12"><hr></hr>  </div>
+                            <div className="col-lg-8">Channeling fee</div>
+                            <div className="col-lg-4">{selectedDoctor.channelingFee}</div>
+                            <div className="col-lg-12"><hr  className='brokenRuler'></hr>  </div>
                             <div className="col-lg-8">Total</div>
-                            <div className="col-lg-4">Rs 800.00</div>
-
-                            <div className="col-lg-12"><hr></hr>  </div>
+                            <div className="col-lg-4">{total}</div>
+                       
+                            <div className="col-lg-12"><hr ></hr> </div>
                             <div className="col-lg-12">
-                                <button className="btn btn-primary rounded-pill btn-lg m-2 w-100">
+                                <button onClick={createPrescription} className="btn btn-primary rounded-pill btn-lg m-2 w-100">
                                     <img height="30px" src={printerImage}></img> PRINT SECURELY
                                 </button>
                             </div>
