@@ -419,9 +419,9 @@ export default function Prescription() {
                                 <button onClick={() => { document.getElementById('qty').value = 1 }} className='btn btn-light w-100'>1 </button>
                                 <button onClick={() => { document.getElementById('qty').value = 2 }} className='btn btn-light w-100'>2 </button>
                                 <button onClick={() => { document.getElementById('qty').value = 3 }} className='btn btn-light w-100'>3 </button>
-                                <button onClick={() => { document.getElementById('qty').value = 4 }} className='btn btn-light w-100'>4</button>
+                                <button onClick={() => { document.getElementById('qty').value = 4 }} className='btn btn-light w-100'>4 </button>
                                 <button onClick={() => { document.getElementById('qty').value = 5 }} className='btn btn-light w-100'>5 </button>
-                                <button onClick={() => { document.getElementById('qty').value = 6 }} className='btn btn-light w-100'>6</button>
+                                <button onClick={() => { document.getElementById('qty').value = 6 }} className='btn btn-light w-100'>6 </button>
                             </ul>
                         </div>
 
