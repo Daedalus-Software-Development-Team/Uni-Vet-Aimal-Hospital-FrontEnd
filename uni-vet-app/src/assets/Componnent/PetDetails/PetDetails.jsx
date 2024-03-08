@@ -1,6 +1,7 @@
 import './PetDetails.css';
 import DoctorCard from "../DoctorCard/DoctorCard";
 import PetCard from "../PetCard/PetCard";
+import dog from '../../img/dog.png'
 
 import React, { useState, useEffect } from 'react';
 
@@ -24,7 +25,7 @@ export default function PetDetails() {
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
                 <div className="container-fluid">
-                    {/* <img src={dog} className="d-block" alt="..." /> */}
+                    <img src={dog} className="d-block" alt="..." />
                     <a className="navbar-brand " id='txt1' href="#">Uni-Vet Care <br />
                         <span className="txt2">Animal Hospital</span></a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,16 +57,13 @@ export default function PetDetails() {
                         </ul>
                         <form className="d-flex" role="search">
                             {/* <button className="btn btn-outline-secondary" type="submit">Login</button> */}
-                            <button type="button" class="btn btn-secondary btn-sm">Login</button>
+                            <button type="button" class="btn btn-secondary " id='loginBtn'>Login</button>
                         </form>
                     </div>
                 </div>
             </nav>
 
-
-
-
-
+            {/* NavBar Okay */}
 
             <div className="container-fluid g-0 ">
                 <div className="row g-0 m-0">
