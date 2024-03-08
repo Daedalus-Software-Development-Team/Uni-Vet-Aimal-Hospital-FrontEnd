@@ -4,12 +4,14 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Prescription from './assets/Componnent/Prescription/Prescription'
 import AddPet from './assets/Componnent/AddPet/AddPet'
-function App() {
+import PetDetails from './assets/Componnent/PetDetails/PetDetails'
 
+function App() {
 
   return (
      //<Prescription></Prescription>
     <AddPet></AddPet>
+     //<PetDetails></PetDetails>
   )
 }
 

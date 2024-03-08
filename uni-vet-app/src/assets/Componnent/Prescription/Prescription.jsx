@@ -289,10 +289,7 @@ export default function Prescription() {
                                 <PetCard pet={selectedPet} customer={slectedCustomer} />
                             )
                         }
-
                     </div>
-
-
                 </div>
                 <div className="col-lg-6 d-flex align-items-center">
                     <div className="container ">
