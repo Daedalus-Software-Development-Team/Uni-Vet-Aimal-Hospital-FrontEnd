@@ -1,16 +1,14 @@
 import './DoctorCard.css';
-export default function DoctorCard({doctor}){
-    return(
+export default function DoctorCard({ doctor }) {
+    return (
         <div className=" sizeContainer card ">
             <div>
-            {doctor.name} 
+                {doctor.name}
             </div>
 
             <div>
-             {doctor.description}
+                {doctor.description}
             </div>
-            
-        
         </div>
     )
 }
