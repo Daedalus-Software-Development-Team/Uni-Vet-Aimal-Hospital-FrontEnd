@@ -1,6 +1,9 @@
 import { bgcolor } from "@mui/system";
 
+
+
 const Homecarddata = [
+    
     {
         width: '600px',
         title: 'Qualified Doctor',
@@ -26,9 +29,11 @@ const Homecarddata = [
         width: '600px',
         title: 'Advanced Technology',
         bgcolor: '#fcd533',
-        imageUrl: '/heart.png',
+        imageUrl: '/heart.jpg',
         discription: 'Our modern laboratory facilities will help our clients to get the laboratory tests done in one place without going anywhere else.'
     }
 ]
+
+
 
 export default Homecarddata;
