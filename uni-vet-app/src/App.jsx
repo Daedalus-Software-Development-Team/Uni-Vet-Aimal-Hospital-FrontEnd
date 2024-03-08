@@ -10,8 +10,8 @@ function App() {
 
   return (
      //<Prescription></Prescription>
-    <AddPet></AddPet>
-     //<PetDetails></PetDetails>
+    // <AddPet></AddPet>
+    <PetDetails></PetDetails>
   )
 }
 

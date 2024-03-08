@@ -1,7 +1,7 @@
 import './PetDetails.css';
 import DoctorCard from "../DoctorCard/DoctorCard";
 import PetCard from "../PetCard/PetCard";
-import NavBar from "../NavBar/NavBar";
+
 import React, { useState, useEffect } from 'react';
 
 
@@ -21,60 +21,106 @@ export default function PetDetails() {
     }
 
     return (
-        <div className="container-fluid g-0 ">
-            <div className="row g-0 m-0">
-                <div class="spinner-border" id="spinner" role="status">
-                    <span class="">Loading...</span>
-                </div>
-                <div className="col-lg-12 bg-warning g-0  ">
-                    <NavBar />
-                </div>
-                <div className="col-lg-3">
-                    <div className="m-2">
-                        {
-                            slectedCustomer && selectedPet && (
-                                <PetCard pet={selectedPet} customer={slectedCustomer} />
-                            )
-                        }
+        <div>
+            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+                <div className="container-fluid">
+                    {/* <img src={dog} className="d-block" alt="..." /> */}
+                    <a className="navbar-brand " id='txt1' href="#">Uni-Vet Care <br />
+                        <span className="txt2">Animal Hospital</span></a>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
+                            <li className="nav-item">
+                                <a className="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">About Us</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Our Service</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Pharmacy</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Contact</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">Appoinment</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" href="#">FAQ</a>
+                            </li>
+                        </ul>
+                        <form className="d-flex" role="search">
+                            {/* <button className="btn btn-outline-secondary" type="submit">Login</button> */}
+                            <button type="button" class="btn btn-secondary btn-sm">Login</button>
+                        </form>
                     </div>
                 </div>
-                <div className="col-lg-6 d-flex align-items-center">
-                    <div className="container ">
-                        <div className="row ">
-                            <div >
-                                Hi Dr.Thushara
-                            </div>
-                            <div >
-                                <h1>GOOD MORNING !</h1>
+            </nav>
+
+
+
+
+
+
+            <div className="container-fluid g-0 ">
+                <div className="row g-0 m-0">
+                    <div class="spinner-border" id="spinner" role="status">
+                        <span class="">Loading...</span>
+                    </div>
+                    <div className="col-lg-12 bg-warning g-0  ">
+                        
+                    </div>
+                    <div className="col-lg-3">
+                        <div className="m-2">
+                            {
+                                slectedCustomer && selectedPet && (
+                                    <PetCard pet={selectedPet} customer={slectedCustomer} />
+                                )
+                            }
+                        </div>
+                    </div>
+                    <div className="col-lg-6 d-flex align-items-center">
+                        <div className="container ">
+                            <div className="row ">
+                                <div >
+                                    Hi Dr.Thushara
+                                </div>
+                                <div >
+                                    <h1>GOOD MORNING !</h1>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className="col-lg-3 ">
-                    <div className="m-2">
-                        {
-                            selectedDoctor &&
-                            (<DoctorCard doctor={selectedDoctor} />)
-                        }
+                    <div className="col-lg-3 ">
+                        <div className="m-2">
+                            {
+                                selectedDoctor &&
+                                (<DoctorCard doctor={selectedDoctor} />)
+                            }
+                        </div>
                     </div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-1"></div>
-                    <div className="col-lg-10">
-                        <table class="table table-bordered ">
-                            <thead className="table-warning text-center">
-                                <tr >
-                                    <th scope="col">Pet Id</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">type</th>
-                                    <th scope="col">Genre</th>
-                                    <th scope="col">Age</th>
-                                    <th scope="col">Owner's Name</th>
-                                    <th scope="col">Contact</th>
-                                    <th scope="col">Email</th>
-                                </tr>
-                            </thead>
-                            {/* <tbody>
+                    <div className="row">
+                        <div className="col-lg-1"></div>
+                        <div className="col-lg-10">
+                            <table class="table table-bordered ">
+                                <thead className="table-warning text-center">
+                                    <tr >
+                                        <th scope="col">Pet Id</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">type</th>
+                                        <th scope="col">Genre</th>
+                                        <th scope="col">Age</th>
+                                        <th scope="col">Owner's Name</th>
+                                        <th scope="col">Contact</th>
+                                        <th scope="col">Email</th>
+                                    </tr>
+                                </thead>
+                                {/* <tbody>
 
 
                                 {prescriptionDetailArray && prescriptionDetailArray.map((data) => (
@@ -108,21 +154,22 @@ export default function PetDetails() {
                                     </tr>
                                 ))}
                             </tbody> */}
-                        </table>
+                            </table>
+                        </div>
+                        <div className="col-lg-1"></div>
+                        <div className="col-lg-4"></div>
+                        <div className="col-lg-4">
+
+
+
+
+                        </div>
+                        <div className="col-lg-4"></div>
                     </div>
-                    <div className="col-lg-1"></div>
-                    <div className="col-lg-4"></div>
-                    <div className="col-lg-4">
-
-                        
 
 
-                    </div>
-                    <div className="col-lg-4"></div>
+
                 </div>
-
-
-
             </div>
         </div>
     )
