@@ -1,0 +1,33 @@
+
+.borderColor{
+
+    border-width: 1pt!important;
+    border-image-source:  linear-gradient(to right,rgba(247,37,81 ,1), rgba(67, 97, 238, 1))!important;
+    border-image-slice: 1!important;
+    
+}
+.makeRoundedContainer{
+    border-radius: 20px !important;
+    overflow: hidden;
+    
+}
+
+.addLeftMargin{
+    margin-left: 5px;
+}
+
+.btnColor{
+    background-color: #E9ECEF !important;
+}
+input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+         -webkit-appearance: none;
+      }
+
+hr.brokenRuler {
+    border-top: 1.5px dashed ;
+}
+
+#spinner {
+    display: none;
+ }
