@@ -2,6 +2,7 @@ import './PetDetails.css';
 import DoctorCard from "../DoctorCard/DoctorCard";
 import PetCard from "../PetCard/PetCard";
 import dog from '../../img/dog.png'
+import puppy from '../../img/puppy.png'
 
 import React, { useState, useEffect } from 'react';
 
@@ -9,6 +10,7 @@ import React, { useState, useEffect } from 'react';
 export default function PetDetails() {
 
     const [selectedPet, setSelectedPet] = useState(null);
+    const [customerDetailArray, setCustomerDetailArray] = useState([]);
 
     const [slectedCustomer, setCustomer] = useState(null);
 
@@ -20,6 +22,54 @@ export default function PetDetails() {
         channelingFee: 2000,
 
     }
+
+
+    const [pets, setPets] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:8080/pet");
+                const data = await response.json();
+                console.log(data) 
+                setPets(data)              
+            } catch (error) {
+                console.log("Error fetching medicine data:", error);
+            }
+            
+            if (pets != null) {
+                console.log("came to if")
+                for (let index = 0; index < pets.length; index++) {
+                    try {
+                        const responseCust = await fetch(`http://localhost:8080/customer/${pets[index].customerId}`);
+                        const dataCust = await responseCust.json();
+                        console.log(dataCust)
+                        
+                        setCustomer(dataCust);
+                        addCustomerDetail(slectedCustomer);
+                    } catch (error) {
+                        console.log("Error fetching customer data:", error);
+                    }
+                } 
+            }
+
+        };
+        fetchData();
+    }, []);
+
+
+    function addCustomerDetail(customerDetail) {
+        let newDetail = true;
+        if (newDetail) {
+            const updatedCustomerDetailArray = [...customerDetailArray, customerDetail];
+            setCustomerDetailArray(updatedCustomerDetailArray);
+            console.log("hello");
+            console.log(customerDetailArray);
+          
+        } 
+    }
+
+
 
     return (
         <div>
@@ -71,38 +121,70 @@ export default function PetDetails() {
                         <span class="">Loading...</span>
                     </div>
                     <div className="col-lg-12 bg-warning g-0  ">
-                        
+
                     </div>
-                    <div className="col-lg-3">
-                        <div className="m-2">
-                            {
-                                slectedCustomer && selectedPet && (
-                                    <PetCard pet={selectedPet} customer={slectedCustomer} />
-                                )
-                            }
-                        </div>
-                    </div>
-                    <div className="col-lg-6 d-flex align-items-center">
-                        <div className="container ">
-                            <div className="row ">
+                    
+                    
+
+                    {/* <Container>
+                        <Row>
+                            <Col><div>
+                                <img src={puppy} className="d-block puppy" alt="..." />
+                            </div></Col>
+                            <Col> <div >
+                                <br /> <br />
+                                Hi Dr.Thushara
+                            </div>
                                 <div >
+                                    <h1>GOOD MORNING !</h1>
+                                    <br />
+                                </div></Col>
+                            <Col><div class="input-group">
+                                <div class="form-outline" data-mdb-input-init>
+                                    <input id="search-input" type="search" class="form-control" />
+                                    <label class="form-label" for="form1">Search</label>
+                                </div>
+                                <button id="search-button" type="button" class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div></Col>
+                        </Row>
+                    </Container> */}
+
+                    <div className='container' >
+                        <div className='row mb-4'>
+                            <div className='col-lg-4'>
+                                <div>
+                                    <img src={puppy} className="d-block puppy" alt="..." />
+                                </div>
+                            </div>
+                            <div className='col-lg-4'>
+                                <div >
+                                    <br /> <br />
                                     Hi Dr.Thushara
                                 </div>
                                 <div >
                                     <h1>GOOD MORNING !</h1>
+                                    <br/> 
+                                </div>
+                            </div>
+                            <div className='col-lg-4'>
+                                <div class="input-group">
+                                    <div class="form-outline" data-mdb-input-init>
+                                        <input id="search-input" type="search" class="form-control" placeholder='search' />
+                                        
+                                    </div>
+                                    <button id="search-button" type="button" class="btn btn-primary">
+                                        <i class="bi bi-search"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-3 ">
-                        <div className="m-2">
-                            {
-                                selectedDoctor &&
-                                (<DoctorCard doctor={selectedDoctor} />)
-                            }
-                        </div>
-                    </div>
-                    <div className="row">
+
+                
+
+                    <div className="row" >
                         <div className="col-lg-1"></div>
                         <div className="col-lg-10">
                             <table class="table table-bordered ">
@@ -110,48 +192,31 @@ export default function PetDetails() {
                                     <tr >
                                         <th scope="col">Pet Id</th>
                                         <th scope="col">Name</th>
-                                        <th scope="col">type</th>
-                                        <th scope="col">Genre</th>
-                                        <th scope="col">Age</th>
+                                        <th scope="col">Gender</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Birthday</th>
+                                        <th scope="col">Genre</th>                                        
                                         <th scope="col">Owner's Name</th>
                                         <th scope="col">Contact</th>
                                         <th scope="col">Email</th>
                                     </tr>
                                 </thead>
-                                {/* <tbody>
 
-
-                                {prescriptionDetailArray && prescriptionDetailArray.map((data) => (
-
+                                <tbody>
+                                {pets && pets.map((data) => (
                                     <tr>
-                                        <td >{(data.medicineId && data.medicineId) || (!data.medicineId && "New")}</td>
-                                        <td >{data.medicineName}</td>
-                                        <td>{data.dosage}</td>
-                                        <td>{(data.beforeMeal == true && "Before Meal") || (data.beforeMeal == false && "After Meal") || ("Not Specified")}</td>
-                                        <td>{data.dailyQuantity}</td>
-                                        <td>{data.days}</td>
-                                        <td>
-                                            {data.available == true && parseFloat(data.price)}
-
-                                            {(data.available == true &&
-                                                (<input class="btn btn-default active mb-1" type="checkbox" checked="checked" onClick={() => { data.available = false; setReloadTable(!reladTable); calculateTotal(prescriptionDetailArray); console.log(prescriptionDetailArray); setReloadTable(!reladTable) }} />))
-                                                || (<input class="btn btn-default active mb-1" type="checkbox" onClick={() => { data.available = true; setReloadTable(!reladTable); calculateTotal(prescriptionDetailArray); console.log(prescriptionDetailArray) }} />)
-                                            }</td>
-                                        <td className='d-flex justify-content-center'>
-                                            <div >
-                                                <button onClick={() => { setDetailToUpdate(data) }} className="btn btn-light  p-2 me-2">
-                                                    <i className="bi bi-arrow-up-square"></i>
-                                                </button>
-                                                <button onClick={() => { deleteMedicineDetail(data) }} className="btn btn-light p-2 ">
-                                                    <i className="bi bi-trash"></i>
-                                                </button>
-                                            </div>
-
-                                        </td>
-
+                                        <td >{data.petId}</td>
+                                        <td>{data.petName}</td>
+                                        <td>{data.type}</td>
+                                        <td>{data.genre}</td>
+                                        <td>{data.birthday}</td>
+                                        <td>{data.customerId}</td>
+                                                                               
                                     </tr>
                                 ))}
-                            </tbody> */}
+                            </tbody>
+
+                            
                             </table>
                         </div>
                         <div className="col-lg-1"></div>
