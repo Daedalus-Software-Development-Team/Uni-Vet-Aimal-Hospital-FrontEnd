@@ -3,21 +3,18 @@ import Homecarddata from './Homecarddata'
 import Homecards from './Homecards'
 import { Box, Typography } from '@mui/material'
 const Home = () => {
-    // const[date,setDate]=useState();
+    const[date,setDate]=useState('ff');
+    const[time,setTime]=useState('ff');
     useEffect(()=>{
         const getDate=async ()=>{
             try{
-            const responce=await fetch('https://timeapi.io/api/Time/current/zone?timeZone=Asia/Colombo',{
-                method:'GET',
-                mode:'no-cors'
-            }).then(response => response.json())
-            .then(json => console.log(json))
-            .catch(error => console.log('Authorization failed : ' + error.message));;
-            console.log(responce)
+            const responce=await fetch('http://worldtimeapi.org/api/timezone/Asia/Colombo');
             const dateJson=await responce.json()
-
-            console.log(dateJson)
-        }
+            
+            
+            setDate(dateJson.utc_datetime.split('T')[0]);
+            setTime((dateJson.utc_datetime.split('T')[1]).split('.')[0]);
+            }
         catch(error){
             console.log(error);
 
@@ -47,10 +44,10 @@ const Home = () => {
                             fontSize: 50,
                             fontWeight: 600
                         }}>
-                            Hello
+                            {date}
                         </Typography>
                         <Typography component={'div'}>
-                            Welcome
+                            {time}
                         </Typography>
                     </Box>
                 </div>

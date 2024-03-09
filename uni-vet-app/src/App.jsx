@@ -21,7 +21,7 @@ function App() {
           {com}
         </div>
       </div>
-    {/* <Customerlogin/> */}
+    {/* <Customerlogin/>  */}
     
     {/* {Homecarddata.map((value)=>{
       return <Homecards {...value}/>
