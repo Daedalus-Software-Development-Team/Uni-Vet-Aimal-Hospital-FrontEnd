@@ -74,7 +74,7 @@ export default function AddPet() {
     function postData(pet) {
         Swal.fire('Please wait')
         Swal.showLoading();
-        console.log(pet); 
+
         axios.post('http://localhost:8080/pet', pet)
             .then(function (response) {
                 Swal.fire({
@@ -201,6 +201,5 @@ export default function AddPet() {
                 <div className="col-lg-4"></div>
             </div>
         </div>
-
     )
 }
