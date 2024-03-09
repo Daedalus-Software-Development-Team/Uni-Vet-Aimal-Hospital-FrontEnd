@@ -326,7 +326,7 @@ export default function Prescription() {
                     <div class="input-group mt-2 mb-3 ">
 
                         <div className="className  shadow-lg makeRoundedContainer col-11">
-                            <input type="text" id='pet' onFocus={() => { setSelectedPet(null) }} class="form-control borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" value={(selectedPet && selectedPet.petId + "-" + selectedPet.petName) || (!selectedPet && null)}></input>
+                            <input type="text" id='pet' onFocus={() => { setSelectedPet(null) }} class="form-control bg-white  borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" value={(selectedPet && selectedPet.petId + "-" + selectedPet.petName) || (!selectedPet && null)}></input>
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -350,7 +350,7 @@ export default function Prescription() {
                     <div class="input-group ">
 
                         <div className="className  shadow-lg makeRoundedContainer col-11">
-                            <input type="text" id="medName" {...register("medicineName")} onFocus={() => { setSelectedMedicine(null) }} class="form-control borderColor rounded" placeholder="Medicine Name" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && selectedMedicine.medicineName) || (!selectedMedicine && null)} />
+                            <input type="text" id="medName" {...register("medicineName")} onFocus={() => { setSelectedMedicine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Medicine Name" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && selectedMedicine.medicineName) || (!selectedMedicine && null)} />
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -375,7 +375,7 @@ export default function Prescription() {
                     <div class="input-group  ">
 
                         <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="text" id="dos" {...register("dosage")} class="form-control borderColor rounded" placeholder="Dosage" aria-label="Amount (to the nearest dollar)" />
+                            <input type="text" id="dos" {...register("dosage")} class="form-control borderColor bg-white rounded" placeholder="Dosage" aria-label="Amount (to the nearest dollar)" />
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -404,7 +404,7 @@ export default function Prescription() {
                     <div class="input-group ">
 
                         <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="number" id="qty" {...register("dailyQuantity")} class="form-control borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
+                            <input type="number" id="qty" {...register("dailyQuantity")} class="form-control bg-white  borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -430,7 +430,7 @@ export default function Prescription() {
                     <div class="input-group ">
 
                         <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="number" id="days" {...register("days")} class="form-control borderColor rounded" placeholder="days" aria-label="Amount (to the nearest dollar)" />
+                            <input type="number" id="days" {...register("days")} class="form-control bg-white  borderColor rounded" placeholder="days" aria-label="Amount (to the nearest dollar)" />
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -480,7 +480,7 @@ export default function Prescription() {
                 </div>
                 <div className="col-lg-2 m-2 mb-3">
                     <div className="className  shadow-lg makeRoundedContainer col-11">
-                        <input type="number" id="price" {...register("price")} onFocus={() => { setSelectedMedicine(null) }} class="form-control borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && parseFloat(selectedMedicine.price)) || (!selectedMedicine && null)} />
+                        <input type="number" id="price" {...register("price")} onFocus={() => { setSelectedMedicine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && parseFloat(selectedMedicine.price)) || (!selectedMedicine && null)} />
                     </div>
                 </div>
                 <div className="col-lg-3 d-flex align-items-center mb-2">

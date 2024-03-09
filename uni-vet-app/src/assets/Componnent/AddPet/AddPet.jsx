@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 
 export default function AddPet() {
 
-    const { handleSubmit,register,reset, formState: { errors } } = useForm();
+    const { handleSubmit, register, reset, formState: { errors } } = useForm();
     const [updateMode, setUpdateMode] = useState(false);
 
     // const petDetail= {
@@ -35,7 +35,7 @@ export default function AddPet() {
         data.email = document.getElementById('email').value;
         data.cont = document.getElementById('cont').value;
         data.pName = document.getElementById('pName').value;
-        data.type = document.getElementById('type').value;
+        data.type = document.getElementById('petType').value;
         data.family = document.getElementById('family').value;
         data.age = document.getElementById('age').value;
 
@@ -72,7 +72,7 @@ export default function AddPet() {
         document.getElementById('email').value = null;
         document.getElementById('cont').value = null;
         document.getElementById('pName').value = null;
-        document.getElementById('type').value = null;
+        document.getElementById('petType').value = null;
         document.getElementById('family').value = null;
         document.getElementById('age').value = null;
 
@@ -138,7 +138,7 @@ export default function AddPet() {
                         <div class="col-md-4 ">
                             <label for="inputState" class="form-label">Pet Type</label>
                     
-                                <input type="text" id="type" {...register("type")} class="form-control borderColor rounded" placeholder="Dog" aria-label="Amount (to the nearest dollar)" />
+                                <input type="text" {...register("type")} id="petType" class="form-control borderColor rounded" placeholder="Dog" aria-label="Amount (to the nearest dollar)" />
                             
                         </div>
                         <div className="col-md-2 mt-5">
@@ -149,12 +149,13 @@ export default function AddPet() {
                                 </button>
                                 <ul class="dropdown-menu">
 
-                                    <button onClick={() => { document.getElementById('type').value = "dog" }} className='btn btn-light w-100'>Dog</button>
-                                    <button onClick={() => { document.getElementById('type').value = "cat" }} className='btn btn-light w-100'>cat</button>
-                                    <button onClick={() => { document.getElementById('type').value = "cow" }} className='btn btn-light w-100'>cow</button>
-                                    <button onClick={() => { document.getElementById('type').value = "bird" }} className='btn btn-light w-100'>bird</button>
-                                    <button onClick={() => { document.getElementById('type').value = "rabbits" }} className='btn btn-light w-100'>rabbits</button>
-                                    <button onClick={() => { document.getElementById('type').value = "fish" }} className='btn btn-light w-100'>fish</button>
+                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "dog" }} className='btn btn-light w-100'>Dog</button>
+                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "cat" }} className='btn btn-light w-100'>cat</button>
+                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "cow" }} className='btn btn-light w-100'>cow</button>
+                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "bird" }} className='btn btn-light w-100'>bird</button>
+                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "rabbits" }} className='btn btn-light w-100'>rabbits</button>
+                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "fish" }} className='btn btn-light w-100'>fish</button>
+                               
                                 </ul>
                             </div>
                         </div>
