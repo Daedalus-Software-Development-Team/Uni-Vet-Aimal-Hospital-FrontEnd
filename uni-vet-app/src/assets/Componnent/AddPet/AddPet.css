@@ -1,7 +1,7 @@
 .search input{
-   width: 390px;
+   width: 80%;
    border-radius: 15px;
-   height: 40px;
+   height: 5vh;
    text-align: center;
 }
 
@@ -10,11 +10,10 @@
 }
 
 .butt button{
-    width: 465px;
+    width: 94%;
     margin-left: 2.5%;
-    height: 40px;
+    height: 5vh;
 }
-
 
 .borderColor{
     border-width: 1pt!important; 

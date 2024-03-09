@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import DoctorCard from "../DoctorCard/DoctorCard";
-import PetCard from "../PetCard/PetCard";
 import NavBar from "../NavBar/NavBar";
 import './AddPet.css'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default function AddPet() {
 
     const { handleSubmit, register, reset, formState: { errors } } = useForm();
     const [updateMode, setUpdateMode] = useState(false);
 
-    // const petDetail= {
-    //     fName: null,
-    //     lName: null,
-    //     email: null,
-    //     cont: null,
-    //     pName: null,
-    //     type: null,
-    //     family: null,
-    //     age: null
-    // }
+        const pet = {
+
+            petName:null,
+            type:null,
+            genre:null,
+            age:null,
+            customerId:null,
+        }
 
     const selectedDoctor = {
         doctorId: 1,
@@ -28,6 +27,7 @@ export default function AddPet() {
         description: "Bachelor of Veterinary Science (BVSc) | UOC",
         channelingFee: 2000
     }
+
 
     const submit = (data) => {
         data.fName = document.getElementById('fName').value;
@@ -39,42 +39,51 @@ export default function AddPet() {
         data.family = document.getElementById('family').value;
         data.age = document.getElementById('age').value;
 
-        console.log(data);
 
-        addPetDetail(data);
+    const submit = (pet) => {
+
+        pet.petName = document.getElementById('pName').value;
+        pet.type = document.getElementById('petType').value;
+        pet.genre = document.getElementById('genrez').value;
+        pet.age = document.getElementById('ages').value;
+        pet.customerId = document.getElementById('oNo').value;
+        console.log(pet);
+        console.log("hello");
+        postData(pet);
         resetForm();
 
     }
-    function addPetDetail(petDetail) {
 
-        let newDetail = true;
-
-        if (newDetail) {
-            const updatedpetDetailArray = [...petDetailArray, petDetail];
-            setpetDetailArray(updatedpetDetailArray);
-            console.log("hello");
-            console.log(petDetailArray);
-            // console.log(updatedpetDetailArray);
-            calculateTotal(updatedpetDetailArray);
-
-        } else {
-            setReloadTable(!reladTable);
-            setUpdateMode(false);
-            // calculateTotal(petDetailArray);
-        }
-
+    function postData(pet) {
+        Swal.fire('Please wait')
+        Swal.showLoading();
+        console.log(pet); 
+        axios.post('http://localhost:8080/pet', pet)
+            .then(function (response) {
+                Swal.fire({
+                    title: "Sucess!",
+                    text: "Pet Add Sucessfully!",
+                    icon: "success"
+                  });
+                Swal.hideLoading();
+                console.log(response);
+                reSetToInitil();
+              
+            })
     }
 
     const resetForm = () => {
         reset(); // Reset react-hook-form fields
-        document.getElementById('fName').value = null;
-        document.getElementById('lName').value = null;
-        document.getElementById('email').value = null;
-        document.getElementById('cont').value = null;
+        document.getElementById('oNo').value = null;
         document.getElementById('pName').value = null;
         document.getElementById('petType').value = null;
+
         document.getElementById('family').value = null;
         document.getElementById('age').value = null;
+
+
+        document.getElementById('genrez').value = null;
+        document.getElementById('ages').value = null;
 
         setUpdateMode(false);
     }
@@ -85,14 +94,14 @@ export default function AddPet() {
                 <div className="col-lg-12 bg-warning g-0  ">
                     <NavBar />
                 </div>
-                <div className="headerb ms-5">
+                <div className="headerb">
                     <div className="row">
                         <div className="col-lg-8 bg-light g-0 mt-2  ">
                             <h5>Hi Dr.Dewmi</h5>
                             <h2 style={{ fontWeight: 'bolder' }}>LETS'S CHOOSE/ADD NEXT PET</h2>
                         </div>
                         <div className="col-lg-4 bg-light g-0  ">
-                            <div className="m-2">
+                            <div className="">
                                 {
                                     selectedDoctor &&
                                     (<DoctorCard doctor={selectedDoctor} />)
@@ -110,35 +119,33 @@ export default function AddPet() {
                     </div>
                     <form class="row g-3 mb-4 form1">
 
-                        <h5 class="ms-3 deco">Pet Owner Detail</h5>
+                        <h5 class="ms-3 deco">Pet Owner Details</h5>
 
-                        <div class=" col-md-6">
-                            <label for="inputEmail4" class="form-label">First Name</label>
-                            <input type="text" class="form-control borderColor" id="fName" />
+                        <div class=" col-md-12">
+                            <label for="inputEmail4" class="form-label">Owner's Reg.no</label>
+                            <input {...register("customerId")} type="text" class="form-control borderColor" id="oNo" />
                         </div>
-                        <div class="nameL col-md-6">
-                            <label for="inputPassword4" class="form-label">Last Name</label>
-                            <input type="text" class="form-control borderColor" id="lName" />
-                        </div>
-                        <div class="email col-md-6">
+                        {/* <div class="email col-md-6">
                             <label for="inputAddress" class="form-label">Email Address</label>
-                            <input type="text" class="form-control borderColor" id="email" />
+                            <input {...register("Email")} type="text" class="form-control borderColor" id="email" />
                         </div>
                         <div class="cont col-md-6">
                             <label for="inputAddress2" class="form-label">Contact Num</label>
-                            <input type="text" class="form-control borderColor" id="cont" />
-                        </div>
+                            <input {...register("Contact")} type="text" class="form-control borderColor" id="cont" />
+                        </div> */}
 
-                        <h5 class="mt-2 ms-3 deco">Pet Detail</h5>
+                        <h5 class="mt-2 ms-3 deco">Pet Details</h5>
 
                         <div class="col-md-6">
                             <label for="inputCity" class="form-label">Name</label>
-                            <input type="text" class="form-control borderColor" id="pName" />
+                            <input {...register("petName")} type="text" class="form-control borderColor" id="pName" />
                         </div>
                         <div class="col-md-4 ">
                             <label for="inputState" class="form-label">Pet Type</label>
                     
-                                <input type="text" {...register("type")} id="petType" class="form-control borderColor rounded" placeholder="Dog" aria-label="Amount (to the nearest dollar)" />
+
+                                <input type="text" id="petType" {...register("type")} class="form-control borderColor rounded"  aria-label="Amount (to the nearest dollar)" />
+
                             
                         </div>
                         <div className="col-md-2 mt-5">
@@ -149,23 +156,23 @@ export default function AddPet() {
                                 </button>
                                 <ul class="dropdown-menu">
 
-                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "dog" }} className='btn btn-light w-100'>Dog</button>
-                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "cat" }} className='btn btn-light w-100'>cat</button>
-                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "cow" }} className='btn btn-light w-100'>cow</button>
-                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "bird" }} className='btn btn-light w-100'>bird</button>
-                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "rabbits" }} className='btn btn-light w-100'>rabbits</button>
-                                    <button type="button"  onClick={() => { document.getElementById('petType').value = "fish" }} className='btn btn-light w-100'>fish</button>
-                               
+                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Dog" }} className='btn btn-light w-100'>Dog</button>
+                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Cat" }} className='btn btn-light w-100'>Cat</button>
+                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Cow" }} className='btn btn-light w-100'>Cow</button>
+                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Bird" }} className='btn btn-light w-100'>Bird</button>
+                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Rabbit" }} className='btn btn-light w-100'>Rabbit</button>
+                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Fish" }} className='btn btn-light w-100'>Fish</button>
+
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label for="inputAddress" class="form-label">Family</label>
-                            <input type="text" class="form-control borderColor" id="family" />
+                            <input {...register("genre")} type="text" class="form-control borderColor" id="genrez" />
                         </div>
                         <div class="col-md-6">
                             <label for="inputAddress2" class="form-label">Age</label>
-                            <input type="text" class="form-control borderColor" id="age" />
+                            <input {...register("age")} type="number" class="form-control borderColor" id="ages" />
                         </div>
 
                         <div class="butt col-12 mb-3">
