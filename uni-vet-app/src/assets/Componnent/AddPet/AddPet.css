@@ -1,3 +1,7 @@
+.greet{
+    width:20%;
+}
+
 .search input{
    width: 80%;
    border-radius: 15px;
@@ -30,7 +34,7 @@
 }
 
 .form1{
-    box-shadow: 10px 10px 10px black;
+    box-shadow: 5px 5px 5px gray;
     font-family: Arial, Helvetica, sans-serif;
 }
 
