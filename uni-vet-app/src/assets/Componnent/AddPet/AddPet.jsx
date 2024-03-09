@@ -43,6 +43,23 @@ export default function AddPet() {
 
     }
 
+    useEffect(() => {
+        const fetchData = async () => {
+
+            try {
+                const response = await fetch("http://localhost:8080/pet");
+                const data = await response.json();
+                console.log(data)
+
+                setPets(data);
+
+            } catch (error) {
+
+                console.log("Error fetching pet data:", error);
+            }
+        }
+    });
+
     function postData(pet) {
         Swal.fire('Please wait')
         Swal.showLoading();
@@ -77,11 +94,11 @@ export default function AddPet() {
                 <div className="col-lg-12 bg-warning g-0  ">
                     <NavBar />
                 </div>
-                <div className="headerb">
+                <div className="container">
                     <div className="row">
-                        <div className="col-lg-8 bg-light g-0 mt-2  ">
-                            <h5>Hi Dr.Dewmi</h5>
-                            <h2 style={{ fontWeight: 'bolder' }}>LETS'S CHOOSE/ADD NEXT PET</h2>
+                        <div className="greet col-lg-8 bg-light g-0 mt-2">
+                            <h5 className='ms-2'>Hi Dr.Dewmi</h5>
+                            <h2 className='ms-2' style={{ fontWeight: 'bolder' }}>LETS'S CHOOSE/ADD NEXT PET</h2>
                         </div>
                         <div className="col-lg-4 bg-light g-0  ">
                             <div className="">
@@ -100,7 +117,7 @@ export default function AddPet() {
                     <div className="search bg-warning mb-2">
                         <input type="text" class="ms-5 mt-3 mx-5 mb-3" placeholder="&#128269;Search Pet by Id" />
                     </div>
-                    <form class="row g-3 mb-4 form1">
+                    <form class="row g-3 form1">
 
                         <h5 class="ms-3 deco">Pet Owner Details</h5>
 
