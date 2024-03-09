@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 
 export default function AddPet() {
 
-    const { handleSubmit, register, reset, formState: { errors } } = useForm();
+    const { handleSubmit,register,reset, formState: { errors } } = useForm();
     const [updateMode, setUpdateMode] = useState(false);
 
         const pet = {
@@ -27,17 +27,6 @@ export default function AddPet() {
         description: "Bachelor of Veterinary Science (BVSc) | UOC",
         channelingFee: 2000
     }
-
-
-    const submit = (data) => {
-        data.fName = document.getElementById('fName').value;
-        data.lName = document.getElementById('lName').value;
-        data.email = document.getElementById('email').value;
-        data.cont = document.getElementById('cont').value;
-        data.pName = document.getElementById('pName').value;
-        data.type = document.getElementById('petType').value;
-        data.family = document.getElementById('family').value;
-        data.age = document.getElementById('age').value;
 
 
     const submit = (pet) => {
@@ -74,7 +63,7 @@ export default function AddPet() {
     function postData(pet) {
         Swal.fire('Please wait')
         Swal.showLoading();
-        console.log(pet); 
+
         axios.post('http://localhost:8080/pet', pet)
             .then(function (response) {
                 Swal.fire({
@@ -94,14 +83,8 @@ export default function AddPet() {
         document.getElementById('oNo').value = null;
         document.getElementById('pName').value = null;
         document.getElementById('petType').value = null;
-
-        document.getElementById('family').value = null;
-        document.getElementById('age').value = null;
-
-
         document.getElementById('genrez').value = null;
         document.getElementById('ages').value = null;
-
         setUpdateMode(false);
     }
 
@@ -160,9 +143,7 @@ export default function AddPet() {
                         <div class="col-md-4 ">
                             <label for="inputState" class="form-label">Pet Type</label>
                     
-
                                 <input type="text" id="petType" {...register("type")} class="form-control borderColor rounded"  aria-label="Amount (to the nearest dollar)" />
-
                             
                         </div>
                         <div className="col-md-2 mt-5">
@@ -179,7 +160,6 @@ export default function AddPet() {
                                     <button type='button' onClick={() => { document.getElementById('petType').value = "Bird" }} className='btn btn-light w-100'>Bird</button>
                                     <button type='button' onClick={() => { document.getElementById('petType').value = "Rabbit" }} className='btn btn-light w-100'>Rabbit</button>
                                     <button type='button' onClick={() => { document.getElementById('petType').value = "Fish" }} className='btn btn-light w-100'>Fish</button>
-
                                 </ul>
                             </div>
                         </div>
@@ -201,6 +181,5 @@ export default function AddPet() {
                 <div className="col-lg-4"></div>
             </div>
         </div>
-
     )
 }
