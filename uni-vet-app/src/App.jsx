@@ -14,8 +14,8 @@ function App() {
 
     //  <Prescription></Prescription>
     // <AddPet></AddPet>
-    // <PetDetails></PetDetails>
-    <Appoinment/>
+    <PetDetails></PetDetails>
+    
     
     
 
