@@ -10,8 +10,8 @@ import AppAbout from './components/About/About'
 import AppBanner from './components/Banner/Banner'
 import Homecards from './components/profileCard/Homecards'
 import Homecarddata from './components/profileCard/Homecarddata'
-import ProfileCard from './components/profileCard/Profilecard'
-import AppHomecarddata from './components/profileCard/Homecarddata'
+import StaffAdd from './components/Staff/StaffAdd'
+
 
 
 
@@ -22,18 +22,17 @@ function App() {
   return (
 
     <div>
-        <Navbar/>
-        
-        {Homecarddata.map((data)=>{
+        {/* <Navbar/>
+          {Homecarddata.map((data)=>{
             return <Homecards {...data}/> 
         })}
-       
-      
         <AppBanner/>
         <AppAbout/>
-    </div>
-    
+        <StaffAdd/> */}
+        <Table/>
+      </div> 
   )
+  
 }
 
 
