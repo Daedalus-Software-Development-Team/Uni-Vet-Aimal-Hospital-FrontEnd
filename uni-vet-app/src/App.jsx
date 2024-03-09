@@ -5,6 +5,7 @@ import './App.css'
 import Prescription from './assets/Componnent/Prescription/Prescription'
 import AddPet from './assets/Componnent/AddPet/AddPet'
 import PetDetails from './assets/Componnent/PetDetails/PetDetails'
+import Home from './assets/Componnent/Home/Home'
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
     //  <Prescription></Prescription>
     // <AddPet></AddPet>
     <PetDetails></PetDetails>
+    
 
   )
 }
