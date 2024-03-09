@@ -23,7 +23,6 @@ export default function PetDetails() {
 
     }
 
-
     const [pets, setPets] = useState(null);
 
     useEffect(() => {
