@@ -15,3 +15,34 @@
 .d-block{
     margin-top: 0%
 }
+
+.puppy{
+    margin-left: 1%;
+    margin-top: 1%;
+    height: 100%;
+    width: 60%;
+}
+
+.column {
+    float: left;
+    width: 33.33%;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .column {
+    float: left;
+  }
+  
+  .left, .right {
+    width: 25%;
+  }
+  
+  .middle {
+    width: 50%;
+  }
