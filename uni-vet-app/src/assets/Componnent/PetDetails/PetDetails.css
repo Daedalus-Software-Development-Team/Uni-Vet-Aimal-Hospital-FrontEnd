@@ -18,9 +18,9 @@
 
 .puppy{
     margin-left: 1%;
-    margin-top: 1%;
+    margin-top: 5%;
     height: 100%;
-    width: 60%;
+    width: 95%;
 }
 
 .column {
@@ -45,4 +45,21 @@
   
   .middle {
     width: 50%;
+  }
+
+  .theme{
+    /* margin-left: 5%; */
+    color: #7f8184;
+    font-weight: 700;
+  }
+
+  #search1{
+    /* margin-top: 1%; */
+    margin-left: 72.5%;
+  }
+
+  #nav{
+    background: #7f8184;
+    color: black;
+    background-color: black;
   }

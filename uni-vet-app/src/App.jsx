@@ -11,12 +11,9 @@ import Vacination from './assets/Componnent/Vacination/Vacination'
 function App() {
 
   return (
-
     //  <Prescription></Prescription>
     // <AddPet></AddPet>
     <PetDetails></PetDetails>
-
-
   )
 }
 
