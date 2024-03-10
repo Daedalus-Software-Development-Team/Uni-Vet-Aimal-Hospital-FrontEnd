@@ -7,6 +7,7 @@ import AddPet from './assets/Componnent/AddPet/AddPet'
 import PetDetails from './assets/Componnent/PetDetails/PetDetails'
 import Home from './assets/Componnent/Home/Home'
 import Appoinment from './assets/Componnent/Appoinment/Appoinment'
+import Customersignup from './assets/Componnent/Customersignup/Customersignup'
 
 function App() {
 
@@ -14,10 +15,11 @@ function App() {
 
     //  <Prescription></Prescription>
     // <AddPet></AddPet>
-    <PetDetails></PetDetails>
-    
-    
-    
+    // <PetDetails></PetDetails>
+    // <Appoinment/>
+    <Customersignup />
+
+
 
   )
 }
