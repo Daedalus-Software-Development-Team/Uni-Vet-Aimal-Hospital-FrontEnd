@@ -33,7 +33,7 @@ export default function PetDetails() {
         petName: null,
         type: null,
         genre: null,
-        birthday: null,
+        birthYear: null,
         customerId: null
     }
 
@@ -117,7 +117,7 @@ export default function PetDetails() {
         console.log(pet.petName);
         console.log(pet.type);
         console.log(pet.genre);
-        console.log(pet.birthday);
+        console.log(pet.birthYear);
         console.log(pet.customerId);
         Swal.fire('Please wait')
         Swal.showLoading();
@@ -139,7 +139,7 @@ export default function PetDetails() {
         pet.petName=document.getElementById('updatePetName').value;
         pet.type=document.getElementById('updatePetType').value;
         pet.genre=document.getElementById('updateGenre').value;
-        pet.birthday=document.getElementById('updateBirthDay').value;
+        pet.birthYear=document.getElementById('updateBirthDay').value;
         pet.customerId=document.getElementById('updateCustomerId').value;
 
     }
@@ -233,7 +233,7 @@ export default function PetDetails() {
                                         <th scope="col">Name</th>
                                         <th scope="col">Type</th>
                                         <th scope="col">Genre</th>
-                                        <th scope="col">Birthday</th>
+                                        <th scope="col">Birth Year</th>
                                         <th scope="col">Customer Id</th>
                                         <th scope="col">Owner's Name</th>
                                         <th scope="col">Contact</th>
@@ -251,7 +251,7 @@ export default function PetDetails() {
                                             <td>{data.petName}</td>
                                             <td>{data.type}</td>
                                             <td>{data.genre}</td>
-                                            <td>{data.birthday}</td>
+                                            <td>{data.birthYear}</td>
                                             <td>{data.customerId}</td>
                                             <td>{customerDetailArray[index].firstName}</td>
                                             <td>{customerDetailArray[index].contact}</td>
@@ -304,12 +304,11 @@ export default function PetDetails() {
                                             <label for="recipient-name" class="col-form-label">Genre:</label>
                                             <input type="text" onFocus={() => { setUpdatePet(null) }} value={updatePet && updatePet.genre} id="updateGenre"
                                                 class="form-control" />
-                                            <label for="recipient-name" class="col-form-label">Birthday:</label>
-                                            <input type="text" onFocus={() => { setUpdatePet(null) }} value={updatePet && updatePet.birthday} id="updateBirthDay"
+                                            <label for="recipient-name" class="col-form-label">Birth Year:</label>
+                                            <input type="text" onFocus={() => { setUpdatePet(null) }} value={updatePet && updatePet.birthYear} id="updateBirthDay"
                                                 class="form-control" />
                                             <label for="recipient-name" class="col-form-label">Customer Id:</label>
                                             <input type="text" value={updatePet && updatePet.customerId} disabled class="form-control" id="updateCustomerId" />
-
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Discard</button>
