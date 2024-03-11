@@ -10,7 +10,7 @@ const Customerlogin = () => {
 
     const handlePostRequest = async () => {
         try {
-
+        
             const apiUrl = "http://localhost:8080/customer";
 
             const responce = await axios.post(apiUrl, customer);
