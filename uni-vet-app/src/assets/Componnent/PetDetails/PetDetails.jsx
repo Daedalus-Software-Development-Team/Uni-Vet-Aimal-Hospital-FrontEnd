@@ -169,7 +169,6 @@ export default function PetDetails() {
                         </div>
                     </div>
 
-
                     <div className='container' id='search1' >
                         <div className='row mb-3 '>
                             <div className='col-lg-12'>
@@ -193,7 +192,6 @@ export default function PetDetails() {
                                     <tr >
                                         <th scope="col">Pet Id</th>
                                         <th scope="col">Name</th>
-
                                         <th scope="col">Type</th>
                                         <th scope="col">Genre</th>
                                         <th scope="col">Birthday</th>
@@ -201,8 +199,8 @@ export default function PetDetails() {
                                         <th scope="col">Owner's Name</th>
                                         <th scope="col">Contact</th>
                                         <th scope="col">Email</th>
-                                        <th scope="col">Update</th>
-                                        <th scope="col">Delete</th>
+                                        <th scope="col">Option</th>
+                                        {/* <th scope="col">Delete</th> */}
 
                                     </tr>
                                 </thead>
@@ -220,33 +218,90 @@ export default function PetDetails() {
                                             <td>{customerDetailArray[index].contact}</td>
                                             <td>{customerDetailArray[index].email}</td>
                                             <td><button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2"
-                                                class="btn btn-success ms-4"><i class="bi bi-pencil-square"></i></button>
-                                            </td>
-                                            <td><button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                                class="btn btn-danger ms-4"><i class="bi bi-trash3"></i></button>
+                                                class="btn btn-success ms-3"><i class="bi bi-pencil-square"></i></button>
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                    class="btn btn-danger ms-3"><i class="bi bi-trash3"></i></button>
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
-
-
                             </table>
+
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Deleted</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure about that?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Deleted</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Update Here</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="recipient-name" class="col-form-label">Pet Id:</label>
+                                            <input type="text" value={{}} disabled class="form-control" id="recipient-name" />
+                                            <label for="recipient-name" class="col-form-label">Pet Name:</label>
+                                            <input type="text"
+                                                class="form-control" id="recipient-name" />
+                                            <label for="recipient-name" class="col-form-label">Type:</label>
+                                            <input type="text"
+                                                class="form-control" id="recipient-name" />
+                                            <label for="recipient-name" class="col-form-label">Genre:</label>
+                                            <input type="text"
+                                                class="form-control" id="recipient-name" />
+                                            <label for="recipient-name" class="col-form-label">Birthday:</label>
+                                            <input type="text"
+                                                class="form-control" id="recipient-name" />
+                                            <label for="recipient-name" class="col-form-label">Customer Id:</label>
+                                            <input type="text" value={{}} disabled class="form-control" id="recipient-name" />
+                                            <label for="recipient-name" class="col-form-label">Customer Name:</label>
+                                            <input type="text"
+                                                class="form-control" id="recipient-name" />
+                                            <label for="recipient-name" class="col-form-label">Contact:</label>
+                                            <input type="text"
+                                                class="form-control" id="recipient-name" />
+                                            <label for="recipient-name" class="col-form-label">Email:</label>
+                                            <input type="text"
+                                                class="form-control" id="recipient-name" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Discard</button>
+                                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Updated</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
-                        <div className="col-lg-1"></div>
+                        {/* <div className="col-lg-1"></div>
                         <div className="col-lg-4"></div>
                         <div className="col-lg-4">
-
-
-
-
                         </div>
-                        <div className="col-lg-4"></div>
+                        <div className="col-lg-4"></div> */}
                     </div>
 
 
 
                 </div>
             </div>
-        </div>
+
+        </div >
     )
 }
