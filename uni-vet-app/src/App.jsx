@@ -13,23 +13,26 @@ import Customerlogin from './assets/Componnent/CustomerLogin/Customerlogin'
 
 import Vacination from './assets/Componnent/Vacination/Vacination'
 
+import NavBar from './assets/Componnent/NavBar/NavBar'
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 
 function App() {
 
   return (
 
-    //  <Prescription></Prescription>
-    // <AddPet></AddPet>
-    <PetDetails></PetDetails>
-    
 
     
-    
-    
-
-
-    // <Home></Home>
-
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/prescription' element={<Prescription />}></Route>
+        <Route path='/apointment' element={<Appoinment />}></Route>
+        <Route path='/addPet' element={<AddPet />}></Route>
+        <Route path='/addPetDetails' element={<PetDetails />}></Route>
+      </Routes>
+    </BrowserRouter>
 
   )
 }

@@ -4,9 +4,10 @@ import PetCard from "../PetCard/PetCard";
 import dog from '../../img/dog.png'
 import puppy from '../../img/puppy.png'
 import catdog1 from '../../img/catdog1.png'
-import catdog2 from '../../img/catdog2.png'
-
 import React, { useState, useEffect } from 'react';
+import NavBar from '../NavBar/NavBar';
+import axios from 'axios';
+import Swal from 'sweetalert2'
 
 
 export default function PetDetails() {
@@ -15,6 +16,9 @@ export default function PetDetails() {
     const [customerDetailArray, setCustomerDetailArray] = useState([]);
 
     const [slectedCustomer, setCustomer] = useState(null);
+    const [delPet, setDeletePet] = useState(null);
+    const [updatePet, setUpdatePet] = useState(null);
+    const [reloadTable, setReloadTable] = useState(false);
 
     const selectedDoctor = {
         doctorId: 1,
@@ -24,6 +28,15 @@ export default function PetDetails() {
         channelingFee: 2000,
 
     }
+    const pet = {
+        petId: null,
+        petName: null,
+        type: null,
+        genre: null,
+        birthYear: null,
+        customerId: null
+    }
+
 
     const [pets, setPets] = useState(null);
 
@@ -34,6 +47,7 @@ export default function PetDetails() {
                 const data = await response.json();
                 console.log(data)
                 setPets(data)
+                
 
                 const customerDetails = await Promise.all(data.map(async pet => {
                     const responseCust = await fetch(`http://localhost:8080/customer/${pet.customerId}`);
@@ -64,7 +78,7 @@ export default function PetDetails() {
 
         };
         fetchData();
-    }, []);
+    }, [reloadTable]);
 
 
     function addCustomerDetail(customerDetail) {
@@ -77,54 +91,79 @@ export default function PetDetails() {
 
         }
     }
+    function deletePet() {
+        Swal.fire('Please wait')
+        Swal.showLoading();
+        axios.delete(`http://localhost:8080/pet/${delPet.petId}`)
+            .then(response => {
+                console.log('Resource deleted successfully:', response.data);
+                Swal.fire({
+                    title: "Sucess!",
+                    text: "Prescription Generated Sucessfully!",
+                    icon: "success"
+                });
+                Swal.hideLoading();
+                console.log(response);
+                setReloadTable(!reloadTable);
+            })
+            .catch(error => {
+                console.error('Error deleting resource:', error);
+            });
+
+    }
+    function updatePetData() {
+        setPetData();
+        console.log(pet.petId);
+        console.log(pet.petName);
+        console.log(pet.type);
+        console.log(pet.genre);
+        console.log(pet.birthYear);
+        console.log(pet.customerId);
+        Swal.fire('Please wait')
+        Swal.showLoading();
+        axios.post('http://localhost:8080/pet', pet)
+            .then(function (response) {
+                Swal.fire({
+                    title: "Sucess!",
+                    text: "Pet Updated Sucessfully!",
+                    icon: "success"
+                  });
+                Swal.hideLoading();
+                console.log(response.data);
+                setReloadTable(!reloadTable);
+              
+            })
+    }
+    function setPetData(){
+        pet.petId=document.getElementById('updatePetId').value;
+        pet.petName=document.getElementById('updatePetName').value;
+        pet.type=document.getElementById('updatePetType').value;
+        pet.genre=document.getElementById('updateGenre').value;
+        pet.birthYear=document.getElementById('updateBirthDay').value;
+        pet.customerId=document.getElementById('updateCustomerId').value;
+
+    }
+    // function reSetToInitil() {
+
+    //     document.getElementById('descriptionArea').value = "";
+    //     document.getElementById('pet').value = "";
+    //     setPrescriptionDetailArray([]);
+    //     setSelectedPet(null);
+    //     setCustomer(null);
+    //     setSelectedMedicine(null);
+    //     setMeal(null)
+    //     setAvailable(false);
+    //     setReloadTable(true);
+    //     setNewId(0);
+    //     setUpdateMode(false);
+    //     setTotal(selectedDoctor.channelingFee);
+    // }
 
 
 
     return (
         <div>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary" id='nav'>
-                {/* <nav class="navbar navbar-dark bg-dark"> */}
-                <div className="container-fluid">
-                    <img src={dog} className="d-block" alt="..." />
-
-                    <a className="navbar-brand " id='txt1' href="#">Uni-Vet Care <br />
-                        <span className="txt2">Animal Hospital</span></a>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-auto">
-                            <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Home</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">About Us</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Our Service</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Pharmacy</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Contact</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">Appoinment</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="#">FAQ</a>
-                            </li>
-                        </ul>
-                        <form className="d-flex" role="search">
-                            {/* <button className="btn btn-outline-secondary" type="submit">Login</button> */}
-                            <button type="button" class="btn btn-secondary " id='loginBtn'>Login</button>
-                        </form>
-                    </div>
-                </div>
-            </nav>
-
-            {/* NavBar Okay */}
+            <NavBar></NavBar>
 
             <div className="container-fluid g-0 ">
                 <div className="row g-0 m-0">
@@ -194,7 +233,7 @@ export default function PetDetails() {
                                         <th scope="col">Name</th>
                                         <th scope="col">Type</th>
                                         <th scope="col">Genre</th>
-                                        <th scope="col">Birthday</th>
+                                        <th scope="col">Birth Year</th>
                                         <th scope="col">Customer Id</th>
                                         <th scope="col">Owner's Name</th>
                                         <th scope="col">Contact</th>
@@ -212,14 +251,14 @@ export default function PetDetails() {
                                             <td>{data.petName}</td>
                                             <td>{data.type}</td>
                                             <td>{data.genre}</td>
-                                            <td>{data.birthday}</td>
+                                            <td>{data.birthYear}</td>
                                             <td>{data.customerId}</td>
                                             <td>{customerDetailArray[index].firstName}</td>
                                             <td>{customerDetailArray[index].contact}</td>
                                             <td>{customerDetailArray[index].email}</td>
-                                            <td><button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                                            <td><button type="button" onClick={() => { setUpdatePet(data) }} data-bs-toggle="modal" data-bs-target="#exampleModal2"
                                                 class="btn btn-success ms-3"><i class="bi bi-pencil-square"></i></button>
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                <button type="button" onClick={() => { setDeletePet(data) }} data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                                     class="btn btn-danger ms-3"><i class="bi bi-trash3"></i></button>
                                             </td>
                                         </tr>
@@ -236,11 +275,11 @@ export default function PetDetails() {
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            Are you sure about that?
+                                            Are You Sure To Delete This?
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Deleted</button>
+                                            <button type="button" onClick={() => { setDeletePet(null) }} class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" onClick={deletePet} class="btn btn-danger" data-bs-dismiss="modal">Deleted</button>
                                         </div>
                                     </div>
                                 </div>
@@ -250,39 +289,30 @@ export default function PetDetails() {
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Update Here</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Update Pet Detail Here</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <label for="recipient-name" class="col-form-label">Pet Id:</label>
-                                            <input type="text" value={{}} disabled class="form-control" id="recipient-name" />
+                                            <input type="text" value={updatePet && updatePet.petId} disabled class="form-control" id="updatePetId" />
                                             <label for="recipient-name" class="col-form-label">Pet Name:</label>
-                                            <input type="text"
-                                                class="form-control" id="recipient-name" />
+                                            <input type="text" onFocus={() => { setUpdatePet(null) }} value={updatePet && updatePet.petName} id="updatePetName"
+                                                class="form-control" />
                                             <label for="recipient-name" class="col-form-label">Type:</label>
-                                            <input type="text"
-                                                class="form-control" id="recipient-name" />
+                                            <input type="text" onFocus={() => { setUpdatePet(null) }} value={updatePet && updatePet.type} id="updatePetType"
+                                                class="form-control" />
                                             <label for="recipient-name" class="col-form-label">Genre:</label>
-                                            <input type="text"
-                                                class="form-control" id="recipient-name" />
-                                            <label for="recipient-name" class="col-form-label">Birthday:</label>
-                                            <input type="text"
-                                                class="form-control" id="recipient-name" />
+                                            <input type="text" onFocus={() => { setUpdatePet(null) }} value={updatePet && updatePet.genre} id="updateGenre"
+                                                class="form-control" />
+                                            <label for="recipient-name" class="col-form-label">Birth Year:</label>
+                                            <input type="text" onFocus={() => { setUpdatePet(null) }} value={updatePet && updatePet.birthYear} id="updateBirthDay"
+                                                class="form-control" />
                                             <label for="recipient-name" class="col-form-label">Customer Id:</label>
-                                            <input type="text" value={{}} disabled class="form-control" id="recipient-name" />
-                                            <label for="recipient-name" class="col-form-label">Customer Name:</label>
-                                            <input type="text"
-                                                class="form-control" id="recipient-name" />
-                                            <label for="recipient-name" class="col-form-label">Contact:</label>
-                                            <input type="text"
-                                                class="form-control" id="recipient-name" />
-                                            <label for="recipient-name" class="col-form-label">Email:</label>
-                                            <input type="text"
-                                                class="form-control" id="recipient-name" />
+                                            <input type="text" value={updatePet && updatePet.customerId} disabled class="form-control" id="updateCustomerId" />
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Discard</button>
-                                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Updated</button>
+                                            <button type="button" onClick={updatePetData}  data-bs-dismiss="modal" class="btn btn-success">Updated</button>
                                         </div>
                                     </div>
                                 </div>

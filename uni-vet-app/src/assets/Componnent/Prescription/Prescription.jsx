@@ -34,7 +34,7 @@ export default function Prescription() {
 
     const [updateMode, setUpdateMode] = useState(false);
 
-    const precription = {
+    const precription ={
         customerId: null,
         doctorId: null,
         petId: null,

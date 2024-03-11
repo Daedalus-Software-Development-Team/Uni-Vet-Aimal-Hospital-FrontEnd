@@ -8,38 +8,103 @@ import Swal from 'sweetalert2'
 
 export default function AddPet() {
 
-    const { handleSubmit,register,reset, formState: { errors } } = useForm();
-    const [updateMode, setUpdateMode] = useState(false);
+    const { handleSubmit, register, reset, formState: { errors } } = useForm();;
+    const [inputValue, setInputValue] = useState('');
 
-        const pet = {
 
-            petName:null,
-            type:null,
-            genre:null,
-            age:null,
-            customerId:null,
-        }
+    const pet = {
+
+        petName: null,
+        type: null,
+        genre: null,
+        birthYear: null,
+        customerId: null,
+
+    }
 
     const selectedDoctor = {
+
         doctorId: 1,
         name: "Dewmi",
         salary: 33.9,
         description: "Bachelor of Veterinary Science (BVSc) | UOC",
         channelingFee: 2000
-    }
 
+    }
 
     const submit = (pet) => {
 
         pet.petName = document.getElementById('pName').value;
         pet.type = document.getElementById('petType').value;
         pet.genre = document.getElementById('genrez').value;
-        pet.age = document.getElementById('ages').value;
+        pet.birthYear = document.getElementById('ages').value;
         pet.customerId = document.getElementById('oNo').value;
         console.log(pet);
         console.log("hello");
         postData(pet);
         resetForm();
+
+    }
+
+    const handleSubmit2 = (event) => {
+        event.preventDefault();
+        submit2(inputValue);
+    };
+
+    const submit2 = (no) => {
+        console.log(no);
+
+        if (no.match(/(?:\+94|0)(?:7\d|77|78|79)\d{7}/)) {
+
+            Swal.fire('Please wait')
+            Swal.showLoading();
+
+            let dataArray = [];
+
+            axios.get('http://localhost:8080/customer')
+                .then(function (response) {
+                    // Assuming response.data is an array
+                    dataArray = response.data;
+                    // console.log(dataArray[3].contact); // Now dataArray contains the response data
+                    for (let index = 0; index < dataArray.length; index++) {
+                        // console.log(dataArray[3].contact);
+                        const element = dataArray[index].contact;
+                        if (element === no) {
+                            submit3(index);
+                        }
+                    }
+                })
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: "Contact No is Invalid try again",
+                icon: "error"
+            });
+            resetForm();
+        }
+    };
+
+    function submit3(index) {
+        console.log(index);
+        axios.get(`http://localhost:8080/customer/${index + 1}`, index)
+            .then(function (response) {
+                Swal.fire({
+                    title: "Sucess!",
+                    text: "Pet Add Sucessfully!",
+                    icon: "success"
+                });
+                Swal.hideLoading();
+                console.log(response.data);
+                setCustomers(response.data)
+
+            })
+    };
+
+    function setCustomers(dataCust) {
+        document.getElementById('Name').value = dataCust.firstName + " " + dataCust.lastName;
+        document.getElementById('Email').value = dataCust.email;
+        document.getElementById('nic').value = dataCust.nic;
+        document.getElementById('oNo').value = dataCust.customerId;
 
     }
 
@@ -70,11 +135,11 @@ export default function AddPet() {
                     title: "Sucess!",
                     text: "Pet Add Sucessfully!",
                     icon: "success"
-                  });
+                });
                 Swal.hideLoading();
                 console.log(response);
                 reSetToInitil();
-              
+
             })
     }
 
@@ -85,7 +150,7 @@ export default function AddPet() {
         document.getElementById('petType').value = null;
         document.getElementById('genrez').value = null;
         document.getElementById('ages').value = null;
-        setUpdateMode(false);
+        setInputValue(null);
     }
 
     return (
@@ -115,36 +180,56 @@ export default function AddPet() {
                 <div className="col-lg-4"></div>
                 <div className="col-lg-4 bg-light">
                     <div className="search bg-warning mb-2">
-                        <input type="text" class="ms-5 mt-3 mx-5 mb-3" placeholder="&#128269;Search Pet by Id" />
+                        <input type="text" class="ms-3 mt-3 mx-2 mb-3" placeholder="&#128269;Search Pet by Id" />
+                        <button className='button2 '><svg xmlns="http://www.w3.org/2000/svg" color='black' fill="currentColor" class="bi bi-search icon" viewBox="0 0 16 16 ">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg></button>
                     </div>
                     <form class="row g-3 form1">
 
                         <h5 class="ms-3 deco">Pet Owner Details</h5>
 
                         <div class=" col-md-12">
-                            <label for="inputEmail4" class="form-label">Owner's Reg.no</label>
-                            <input {...register("customerId")} type="text" class="form-control borderColor" id="oNo" />
+                            <label for="inputEmail4" class="form-label">Owner's Mobile Number</label>
+                            <div class="input-group">
+                                <input type="text" value={inputValue}
+                                    onChange={(e) => setInputValue(e.target.value)} class="form-control" placeholder="Enter your Mobile Number to Continue ex:-(07 / +94)" aria-label="Recipient's username" aria-describedby="button-addon2" />
+                                <button onClick={handleSubmit2} class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="bi bi-check2"></i></button>
+                            </div>
+                            {errors.customerId && <span>Mobile Number Not Provided</span>}
                         </div>
-                        {/* <div class="email col-md-6">
+
+                        <div class=" col-md-6">
+                            <label for="inputEmail4" class="form-label">Owner's No</label>
+                            <input type="text" class="form-control borderColor" id="oNo" />
+                        </div>
+
+                        <div class=" col-md-6">
+                            <label for="inputEmail4" class="form-label">Owner's Name</label>
+                            <input type="text" class="form-control borderColor" id="Name" />
+                        </div>
+
+                        <div class="email col-md-6">
                             <label for="inputAddress" class="form-label">Email Address</label>
-                            <input {...register("Email")} type="text" class="form-control borderColor" id="email" />
+                            <input type="text" class="form-control borderColor" id="Email" />
                         </div>
+
                         <div class="cont col-md-6">
-                            <label for="inputAddress2" class="form-label">Contact Num</label>
-                            <input {...register("Contact")} type="text" class="form-control borderColor" id="cont" />
-                        </div> */}
+                            <label for="inputAddress2" class="form-label">Nic</label>
+                            <input type="text" class="form-control borderColor" id="nic" />
+                        </div>
 
                         <h5 class="mt-2 ms-3 deco">Pet Details</h5>
 
                         <div class="col-md-6">
-                            <label for="inputCity" class="form-label">Name</label>
-                            <input {...register("petName")} type="text" class="form-control borderColor" id="pName" />
+                            <label for="inputState" class="form-label">Pet Name</label>
+                            <input type="text" id="pName" {...register("petName", { required: true, pattern: /^[a-zA-Z ]+$/ })} class="form-control borderColor rounded" aria-label="Amount (to the nearest dollar)" />
+                            {errors.petName && <span>Pet Name Not Provided</span>}
                         </div>
                         <div class="col-md-4 ">
                             <label for="inputState" class="form-label">Pet Type</label>
-                    
-                                <input type="text" id="petType" {...register("type")} class="form-control borderColor rounded"  aria-label="Amount (to the nearest dollar)" />
-                            
+                            <input type="text" id="petType" {...register("type", { required: true, pattern: /^[a-zA-Z ]+$/ })} class="form-control borderColor rounded" aria-label="Amount (to the nearest dollar)" />
+                            {errors.type && <span>Type Not Provided</span>}
                         </div>
                         <div className="col-md-2 mt-5">
                             <div class="btn-group col-1 ">
@@ -164,12 +249,14 @@ export default function AddPet() {
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="inputAddress" class="form-label">Family</label>
-                            <input {...register("genre")} type="text" class="form-control borderColor" id="genrez" />
+                            <label for="inputAddress" class="form-label">Breed</label>
+                            <input {...register("genre", { required: true, pattern: /^[a-zA-Z ]+$/ })} type="text" class="form-control borderColor" id="genrez" />
+                            {errors.genre && <span>Breed Not Provided</span>}
                         </div>
                         <div class="col-md-6">
-                            <label for="inputAddress2" class="form-label">Age</label>
-                            <input {...register("age")} type="number" class="form-control borderColor" id="ages" />
+                            <label for="inputAddress2" class="form-label">Birth Year</label>
+                            <input {...register("birthYear", { required: true, pattern: /^(199\d|200\d|2010)$/ })} type="text" class="form-control borderColor" id="ages" />
+                            {errors.birthYear && <span>Birth Year Not Provided</span>}
                         </div>
 
                         <div class="butt col-12 mb-3">
