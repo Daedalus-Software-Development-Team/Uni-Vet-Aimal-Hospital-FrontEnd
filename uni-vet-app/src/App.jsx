@@ -8,6 +8,8 @@ import PetDetails from './assets/Componnent/PetDetails/PetDetails'
 import Home from './assets/Componnent/Home/Home'
 
 import Appoinment from './assets/Componnent/Appoinment/Appoinment'
+import Customersignup from './assets/Componnent/Customersignup/Customersignup'
+import Customerlogin from './assets/Componnent/CustomerLogin/Customerlogin'
 
 import Vacination from './assets/Componnent/Vacination/Vacination'
 
@@ -20,6 +22,7 @@ function App() {
 
   return (
 
+
     
     <BrowserRouter>
       <Routes>
@@ -30,6 +33,7 @@ function App() {
         <Route path='/addPetDetails' element={<PetDetails />}></Route>
       </Routes>
     </BrowserRouter>
+
   )
 }
 

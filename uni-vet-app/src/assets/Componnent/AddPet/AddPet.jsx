@@ -69,7 +69,12 @@ export default function AddPet() {
                 .then(function (response) {
                     // Assuming response.data is an array
                     dataArray = response.data;
+
+
+                    // console.log(dataArray[3].contact); // Now dataArray contains the response data
                     for (let index = 0; index < dataArray.length; index++) {
+                        // console.log(dataArray[3].contact);
+
                         const element = dataArray[index].contact;
                         if (element === no) {
                             submit3(index);
