@@ -14,6 +14,7 @@ function App() {
     //  <Prescription></Prescription>
     // <AddPet></AddPet>
     <PetDetails></PetDetails>
+    // <Home></Home>
   )
 }
 
