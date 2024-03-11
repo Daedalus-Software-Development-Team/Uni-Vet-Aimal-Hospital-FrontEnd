@@ -23,7 +23,7 @@
     border-width: 1pt!important; 
     border-image-source:  linear-gradient(to right,rgba(247,37,81 ,1), rgba(67, 97, 238, 1))!important;  
     border-image-slice: 1!important;  
-    border-radius: 20px !important;
+    /* border-radius: 20px !important; */
     overflow: hidden;
 }
 
@@ -40,4 +40,16 @@
 
 .deco{
     text-decoration:underline;
+}
+
+.button2{
+    width: 10%;
+    border-radius: 40%;
+    background-color:whitesmoke;
+    height: 5vh;
+}
+
+.button2 svg{
+    width: 50%;
+    height: 3vh;
 }
