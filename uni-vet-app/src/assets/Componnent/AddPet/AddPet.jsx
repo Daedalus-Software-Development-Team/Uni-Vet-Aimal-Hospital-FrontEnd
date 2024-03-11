@@ -255,7 +255,7 @@ export default function AddPet() {
                         </div>
                         <div class="col-md-6">
                             <label for="inputAddress2" class="form-label">Birth Year</label>
-                            <input {...register("age", { required: true, pattern: /^(199\d|200\d|2010)$/ })} type="text" class="form-control borderColor" id="ages" />
+                            <input {...register("age", { required: true, pattern: /^(199\d|200\d|2024)$/ })} type="text" class="form-control borderColor" id="ages" />
                             {errors.age && <span>Birth Year Not Provided</span>}
                         </div>
 
