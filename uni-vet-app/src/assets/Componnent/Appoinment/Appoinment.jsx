@@ -4,6 +4,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CheckIcon from '@mui/icons-material/Check';
+import './Appoinment.css';
+import appoinment from '../../img/appoinment.jpg'
 
 
 import React, { useEffect, useState } from 'react'
@@ -30,8 +32,17 @@ const Appoinment = () => {
     return (
         <div>
             <div className="row">
+                <div className="col-5">
+                    <h1 className='heading'>Schedule Your Appoinment Here</h1>
+                </div>
+                    <div className="col-4">
+                        <img src={appoinment} className="d-block appoinment" alt="..." />
+                        </div>
+                        <div className="col-4"></div>
+            </div>
+            <div className="row">
                 <div className="col-2"></div>
-                <div className="col-8">
+                <div className="col-8 mt-5" >
                     <form className='d-flex flex-column align-items-center justify-content-center gap-4 my-4'>
 
                         <TextField label="Pet Owner Name" id="fullWidth" sx={{

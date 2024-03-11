@@ -13,7 +13,6 @@ export default function AddPet() {
 
 
     const pet = {
-
         petName: null,
         type: null,
         genre: null,
@@ -97,7 +96,7 @@ export default function AddPet() {
             .then(function (response) {
                 Swal.fire({
                     title: "Sucess!",
-                    text: "Pet Add Sucessfully!",
+                    text: "Sucessfully!",
                     icon: "success"
                 });
                 Swal.hideLoading();
@@ -279,7 +278,7 @@ export default function AddPet() {
 
                         <div class="butt col-12 mb-3">
 
-                            <button type="submit" onClick={handleSubmit(submit)} class="btn btn-primary">Enter</button>
+                            <button type="submit" onClick={handleSubmit(submit)} class="btn btn-primary">Add</button>
                         </div>
                     </form>
                 </div>
