@@ -2,15 +2,15 @@ import './NavBar.css';
 import dog from '../../img/dog.png'
 import { Link } from "react-router-dom";
 
-export default function NavBar(){
-    return(
-        <div className="  g-0 m-0">          
+export default function NavBar() {
+    return (
+        <div className="  g-0 m-0">
             <nav className="navbar navbar-expand-lg bg-body-tertiary" id='nav'>
                 {/* <nav class="navbar navbar-dark bg-dark"> */}
-                
+
                 <div className="container-fluid">
                     <img src={dog} className="d-block" alt="..." />
-                   
+
                     <Link to="/" className="navbar-brand " id='txt1' href="#">Uni-Vet Care <br />
                         <span className="txt2">Animal Hospital</span></Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,12 @@ export default function NavBar(){
                         </ul>
                         <form className="d-flex" role="search">
                             {/* <button className="btn btn-outline-secondary" type="submit">Login</button> */}
-                            <button type="button" class="btn btn-secondary " id='loginBtn'>Login</button>
+                            <Link to="/customerLogin">
+                                <button type="button" class="btn btn-secondary addLeftMargin" id='loginBtn'>Login</button>
+                            </Link>
+                            <Link to="/customerSignUp">
+                                <button type="button" class="btn btn-secondary " id='loginBtn'>Register</button>
+                            </Link>
                         </form>
                     </div>
                 </div>
