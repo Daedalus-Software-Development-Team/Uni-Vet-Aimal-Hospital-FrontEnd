@@ -10,21 +10,20 @@ import Home from './assets/Componnent/Home/Home'
 import Appoinment from './assets/Componnent/Appoinment/Appoinment'
 
 import Vacination from './assets/Componnent/Vacination/Vacination'
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
 
   return (
     //  <Prescription></Prescription>
     // <AddPet></AddPet>
-    <PetDetails></PetDetails>
 
-    
-    
-    
-
-
-    // <Home></Home>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Home />}></Route>
+        <Route path='/prescription' element={<Prescription />}></Route>
+      </Routes>
+    </BrowserRouter>
 
   )
 }
