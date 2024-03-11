@@ -19,6 +19,8 @@ export default function AddPet() {
         genre: null,
         birthYear: null,
         customerId: null,
+        gender: null,
+        weight: null,
 
     }
 
@@ -39,6 +41,8 @@ export default function AddPet() {
         pet.genre = document.getElementById('genrez').value;
         pet.birthYear = document.getElementById('ages').value;
         pet.customerId = document.getElementById('oNo').value;
+        pet.gender = document.getElementById('Gender').value;
+        pet.weight = document.getElementById('Weight').value;
         console.log(pet);
         console.log("hello");
         postData(pet);
@@ -65,9 +69,12 @@ export default function AddPet() {
                 .then(function (response) {
                     // Assuming response.data is an array
                     dataArray = response.data;
+
+
                     // console.log(dataArray[3].contact); // Now dataArray contains the response data
                     for (let index = 0; index < dataArray.length; index++) {
                         // console.log(dataArray[3].contact);
+
                         const element = dataArray[index].contact;
                         if (element === no) {
                             submit3(index);
@@ -150,6 +157,8 @@ export default function AddPet() {
         document.getElementById('petType').value = null;
         document.getElementById('genrez').value = null;
         document.getElementById('ages').value = null;
+        document.getElementById('Gender').value = null;
+        document.getElementById('Weight').value = null;
         setInputValue(null);
     }
 
@@ -226,25 +235,18 @@ export default function AddPet() {
                             <input type="text" id="pName" {...register("petName", { required: true, pattern: /^[a-zA-Z ]+$/ })} class="form-control borderColor rounded" aria-label="Amount (to the nearest dollar)" />
                             {errors.petName && <span>Pet Name Not Provided</span>}
                         </div>
-                        <div class="col-md-4 ">
-                            <label for="inputState" class="form-label">Pet Type</label>
-                            <input type="text" id="petType" {...register("type", { required: true, pattern: /^[a-zA-Z ]+$/ })} class="form-control borderColor rounded" aria-label="Amount (to the nearest dollar)" />
-                            {errors.type && <span>Type Not Provided</span>}
-                        </div>
-                        <div className="col-md-2 mt-5">
-                            <div class="btn-group col-1 ">
-
-                                <button type="button" class="btn btn-outline-primary addLeftMargin rounded   dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-
+                        <div class="col-md-6">
+                            <label for="inputAddress2" class="form-label">Pet Type</label>
+                            <div class="input-group mb-3">
+                                <input {...register("type")} type="text" id='petType' class="form-control  borderColor rounded" aria-label="Text input with dropdown button" />
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu dropdown-menu-end">
                                     <button type='button' onClick={() => { document.getElementById('petType').value = "Dog" }} className='btn btn-light w-100'>Dog</button>
                                     <button type='button' onClick={() => { document.getElementById('petType').value = "Cat" }} className='btn btn-light w-100'>Cat</button>
+                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Rabbit" }} className='btn btn-light w-100'>Rabbit</button>
                                     <button type='button' onClick={() => { document.getElementById('petType').value = "Cow" }} className='btn btn-light w-100'>Cow</button>
                                     <button type='button' onClick={() => { document.getElementById('petType').value = "Bird" }} className='btn btn-light w-100'>Bird</button>
-                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Rabbit" }} className='btn btn-light w-100'>Rabbit</button>
-                                    <button type='button' onClick={() => { document.getElementById('petType').value = "Fish" }} className='btn btn-light w-100'>Fish</button>
+                                   
                                 </ul>
                             </div>
                         </div>
@@ -255,13 +257,29 @@ export default function AddPet() {
                         </div>
                         <div class="col-md-6">
                             <label for="inputAddress2" class="form-label">Birth Year</label>
-                            <input {...register("birthYear", { required: true, pattern: /^(199\d|200\d|2010)$/ })} type="text" class="form-control borderColor" id="ages" />
+                            <input {...register("birthYear", { required: true, pattern: /^(199\d|200\d|2024)$/ })} type="text" class="form-control borderColor" id="ages" />
                             {errors.birthYear && <span>Birth Year Not Provided</span>}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputAddress2" class="form-label">Gender</label>
+                            <div class="input-group mb-3">
+                                <input {...register("gender")} type="text" id='Gender' class="form-control  borderColor rounded" aria-label="Text input with dropdown button" />
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <button type='button' onClick={() => { document.getElementById('Gender').value = "Female" }} className='btn btn-light w-100'>Female</button>
+                                    <button type='button' onClick={() => { document.getElementById('Gender').value = "Male" }} className='btn btn-light w-100'>Male</button>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputAddress2" class="form-label">Weight</label>
+                            <input {...register("weight", { required: true, pattern: /[0-9]*\.[0-9]+/ })} type="text" class="form-control borderColor" id="Weight" />
+                            {errors.weight && <span>Weight Not Provided</span>}
                         </div>
 
                         <div class="butt col-12 mb-3">
 
-                            <button type="submit" onClick={handleSubmit(submit)} class="btn btn-primary">Sign in</button>
+                            <button type="submit" onClick={handleSubmit(submit)} class="btn btn-primary">Enter</button>
                         </div>
                     </form>
                 </div>
