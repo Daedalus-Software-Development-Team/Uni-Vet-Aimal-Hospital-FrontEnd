@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import React, { useState, } from 'react';
+import React, { useEffect, useState, } from 'react';
 
 const Customerlogin = () => {
     const[customer,setCustomer]=useState({
@@ -8,35 +8,35 @@ const Customerlogin = () => {
         password:''
     })
 
-    const handlePostRequest = async () => {
-        try {
+    const[num,setNum]=useState(1);
 
-            const apiUrl = "http://localhost:8080/customer";
-
-            const responce = await axios.post(apiUrl, customer);
-
-            console.log("Succefull", responce);
-
-
-
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    function submitOnHandle() {
-
-
-        customer.firstName = firstNameC;
-        customer.lastName = lastNameC;
-        customer.email = emailC;
-        customer.nicNum = nicNumC;
-
-
+    useEffect(()=>{
         console.log(customer);
+
+        const handlePostRequest = async () => {
+            try {
+    
+                const apiUrl = "http://localhost:8080/login";
+    
+                const responce = await axios.post(apiUrl, customer);
+    
+                console.log("Succefull", responce);
+                console.log("Succefull", responce.data);
+                
+    
+    
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
         handlePostRequest();
-    }
+    },[num])
+
+    
+
+    
 
     const emailHandler=(e)=>{
     setCustomer((pre)=>(
@@ -75,7 +75,11 @@ const Customerlogin = () => {
                     <input value={customer.password}  onChange={passwordHandler} type="password" id="userPassword" class="form-control input-Field mb-2" />
                     
                     <div className="buttonFrame">
-                        <button type="submit" class="btn btn-primary mt-3 submit-button">Log-in</button>
+                        <button type="submit" onClick={(e)=>{
+                            setNum((pre)=>{
+                                return pre==1?0:1;
+                            })
+                        }} class="btn btn-primary mt-3 submit-button">Log-in</button>
                     </div>
 
                 </div>
