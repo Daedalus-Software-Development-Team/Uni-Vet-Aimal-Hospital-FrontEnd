@@ -28,8 +28,10 @@ const Home = () => {
         getDate();
     }, [])
     return (
+        <div className='container-fluid'>
+          <NavBar/>
         <div className='container'>
-            <NavBar/>
+            
             <div className="row">
 
               <div className="col-12">
@@ -210,6 +212,7 @@ const Home = () => {
   </footer>
                 </div>
             </div>
+        </div>
         </div>
     )
 }

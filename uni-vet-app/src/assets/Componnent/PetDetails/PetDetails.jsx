@@ -99,7 +99,7 @@ export default function PetDetails() {
                 console.log('Resource deleted successfully:', response.data);
                 Swal.fire({
                     title: "Sucess!",
-                    text: "Prescription Generated Sucessfully!",
+                    text: "Pet Deleted Sucessfully!",
                     icon: "success"
                 });
                 Swal.hideLoading();

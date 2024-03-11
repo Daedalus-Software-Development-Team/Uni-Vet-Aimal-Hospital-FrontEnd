@@ -8,7 +8,9 @@ const Customerlogin = () => {
         password:''
     })
 
+
     const[num,setNum]=useState(1);
+
 
     useEffect(()=>{
         console.log(customer);
