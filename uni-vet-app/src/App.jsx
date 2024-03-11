@@ -6,22 +6,31 @@ import Prescription from './assets/Componnent/Prescription/Prescription'
 import AddPet from './assets/Componnent/AddPet/AddPet'
 import PetDetails from './assets/Componnent/PetDetails/PetDetails'
 import Home from './assets/Componnent/Home/Home'
+
 import Appoinment from './assets/Componnent/Appoinment/Appoinment'
 import Customersignup from './assets/Componnent/Customersignup/Customersignup'
 import Customerlogin from './assets/Componnent/CustomerLogin/Customerlogin'
 
+import Vacination from './assets/Componnent/Vacination/Vacination'
+
+
 function App() {
 
   return (
-<div>
-{/* <Home/> */}
-<Customerlogin/>
-<Customersignup/>
-</div>
+
     //  <Prescription></Prescription>
     // <AddPet></AddPet>
-    // <PetDetails></PetDetails>
-    // <Appoinment/> 
+    <PetDetails></PetDetails>
+    
+
+    
+    
+    
+
+
+    // <Home></Home>
+
+
   )
 }
 
