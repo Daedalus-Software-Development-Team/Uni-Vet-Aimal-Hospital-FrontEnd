@@ -6,18 +6,25 @@ import Prescription from './assets/Componnent/Prescription/Prescription'
 import AddPet from './assets/Componnent/AddPet/AddPet'
 import PetDetails from './assets/Componnent/PetDetails/PetDetails'
 import Home from './assets/Componnent/Home/Home'
+
 import Appoinment from './assets/Componnent/Appoinment/Appoinment'
+
+import Vacination from './assets/Componnent/Vacination/Vacination'
+
 
 function App() {
 
   return (
-
     //  <Prescription></Prescription>
     // <AddPet></AddPet>
     <PetDetails></PetDetails>
+
     
     
     
+
+
+    // <Home></Home>
 
   )
 }
