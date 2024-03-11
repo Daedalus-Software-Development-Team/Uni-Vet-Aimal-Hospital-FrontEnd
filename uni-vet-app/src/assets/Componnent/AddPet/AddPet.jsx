@@ -17,7 +17,7 @@ export default function AddPet() {
         petName: null,
         type: null,
         genre: null,
-        age: null,
+        birthYear: null,
         customerId: null,
 
     }
@@ -37,7 +37,7 @@ export default function AddPet() {
         pet.petName = document.getElementById('pName').value;
         pet.type = document.getElementById('petType').value;
         pet.genre = document.getElementById('genrez').value;
-        pet.age = document.getElementById('ages').value;
+        pet.birthYear = document.getElementById('ages').value;
         pet.customerId = document.getElementById('oNo').value;
         console.log(pet);
         console.log("hello");
@@ -65,9 +65,9 @@ export default function AddPet() {
                 .then(function (response) {
                     // Assuming response.data is an array
                     dataArray = response.data;
-                    console.log(dataArray[3].contact); // Now dataArray contains the response data
+                    // console.log(dataArray[3].contact); // Now dataArray contains the response data
                     for (let index = 0; index < dataArray.length; index++) {
-                        console.log(dataArray[3].contact);
+                        // console.log(dataArray[3].contact);
                         const element = dataArray[index].contact;
                         if (element === no) {
                             submit3(index);
@@ -255,8 +255,8 @@ export default function AddPet() {
                         </div>
                         <div class="col-md-6">
                             <label for="inputAddress2" class="form-label">Birth Year</label>
-                            <input {...register("age", { required: true, pattern: /^(199\d|200\d|2010)$/ })} type="text" class="form-control borderColor" id="ages" />
-                            {errors.age && <span>Birth Year Not Provided</span>}
+                            <input {...register("birthYear", { required: true, pattern: /^(199\d|200\d|2010)$/ })} type="text" class="form-control borderColor" id="ages" />
+                            {errors.birthYear && <span>Birth Year Not Provided</span>}
                         </div>
 
                         <div class="butt col-12 mb-3">

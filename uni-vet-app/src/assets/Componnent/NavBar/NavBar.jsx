@@ -28,10 +28,10 @@ export default function NavBar(){
                                 <a className="nav-link" href="#">Our Service</a>
                             </li>
                             <li className="nav-item">
-                                <Link to="/addPetDetails" className="nav-link">Add Pet Details</Link>
+                                <Link to="/addPet" className="nav-link">Add Pet</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/addPet" className="nav-link" >Add Pet</Link>
+                                <Link to="/addPetDetails" className="nav-link" >Add Pet Details</Link>
                             </li>
                             <li className="nav-item">
                                 <Link to="/apointment" className="nav-link" href="#">Appoinment</Link>
