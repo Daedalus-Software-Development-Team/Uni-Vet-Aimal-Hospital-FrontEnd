@@ -31,6 +31,8 @@ function App() {
         <Route path='/apointment' element={<Appoinment />}></Route>
         <Route path='/addPet' element={<AddPet />}></Route>
         <Route path='/addPetDetails' element={<PetDetails />}></Route>
+        <Route path='/customerLogin' element={<Customerlogin />}></Route>
+        <Route path='/customerSignUp' element={<Customersignup />}></Route>
       </Routes>
     </BrowserRouter>
 
