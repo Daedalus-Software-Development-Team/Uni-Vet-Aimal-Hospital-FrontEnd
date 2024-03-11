@@ -55,7 +55,7 @@ const Home = () => {
                             {time}
                         </Typography>
                         <div>
-                            <img src={MainPuppy} className="d-block mainpuppy" alt="..." />
+                            {/* <img src={MainPuppy} className="d-block mainpuppy" alt="..." /> */}
                         </div>
                     </Box>
 
