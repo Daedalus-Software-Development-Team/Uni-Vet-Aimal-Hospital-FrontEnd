@@ -99,7 +99,15 @@ export default function Prescription() {
     function addPrescriptionDetail(perscriptionDetail) {
 
         let newDetail = true;
-
+        for (let i = 0; i < prescriptionDetailArray.length; i++) {
+            if (prescriptionDetailArray[i].medicineId === perscriptionDetail.medicineId) {
+                let spliced = prescriptionDetailArray.splice(i, 1,perscriptionDetail);
+                console.log("Removed element: " + spliced);
+                console.log(prescriptionDetailArray);
+                
+                newDetail=false;
+            }
+        }
 
         if (newDetail) {
             const updatedPrescriptionDetailArray = [...prescriptionDetailArray, perscriptionDetail];
@@ -404,7 +412,8 @@ export default function Prescription() {
                     <div class="input-group ">
 
                         <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="number" id="qty" {...register("dailyQuantity")} class="form-control bg-white  borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
+                            <input type="number" id="qty" {...register("dailyQuantity",{required:true,pattern:/^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/})} class="form-control bg-white  borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
+                            { errors.dailyQuantity && <span>Provide Daily quantity correctly</span>}
                         </div>
 
                         <div class="btn-group col-1 ">
