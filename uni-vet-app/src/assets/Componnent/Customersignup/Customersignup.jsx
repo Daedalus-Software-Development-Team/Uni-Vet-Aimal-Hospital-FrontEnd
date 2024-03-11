@@ -82,7 +82,7 @@ function Customersignup() {
             <div className="col-8 logFrame">
                 <div className="customerLog">
                     <div className="customer-login-name mt-2">
-                        <h3 className="customer-login">Customer Sign-Up</h3>
+                        <h3 className="customer-login">Customer Sign-up</h3>
                         <hr />
                     </div>
                     <label class="form-label student-label">First Name</label>
@@ -93,8 +93,10 @@ function Customersignup() {
                     <input value={emailC} onChange={handleEmail} type="text" id="email" class="form-control input-Field mb-2" />
                     <label class="form-label student-label">NIC Number</label>
                     <input value={nicNumC} onChange={handleNic} type="number" id="nic" class="form-control input-Field" />
+                    <label class="form-label student-label">Password</label>
+                    <input value={nicNumC} onChange={handleNic} type="password" id="nic" class="form-control input-Field" />
                     <div className="buttonFrame">
-                        <button onClick={submitOnHandle} type="submit" class="btn btn-primary mt-3 submit-button">Submit</button>
+                        <button onClick={submitOnHandle} type="submit" class="btn btn-primary mt-3 submit-button">Sign-Up</button>
                     </div>
 
                 </div>
