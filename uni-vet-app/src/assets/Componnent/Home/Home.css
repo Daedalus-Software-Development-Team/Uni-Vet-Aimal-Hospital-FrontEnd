@@ -1,0 +1,14 @@
+.mainpuppy{
+    width: 135%;
+    border-radius: 7%;
+    height: 90vh;
+}
+
+#txt1{
+    margin-left: 1%;
+    color: #1066c4;
+    font-weight:700;
+}
+.txt2{
+    font-weight:10;  
+}
