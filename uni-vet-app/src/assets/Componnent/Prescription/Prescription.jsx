@@ -34,7 +34,7 @@ export default function Prescription() {
 
     const [updateMode, setUpdateMode] = useState(false);
 
-    const precription ={
+    const precription = {
         customerId: null,
         doctorId: null,
         petId: null,
@@ -101,11 +101,11 @@ export default function Prescription() {
         let newDetail = true;
         for (let i = 0; i < prescriptionDetailArray.length; i++) {
             if (prescriptionDetailArray[i].medicineId === perscriptionDetail.medicineId) {
-                let spliced = prescriptionDetailArray.splice(i, 1,perscriptionDetail);
+                let spliced = prescriptionDetailArray.splice(i, 1, perscriptionDetail);
                 console.log("Removed element: " + spliced);
                 console.log(prescriptionDetailArray);
-                
-                newDetail=false;
+
+                newDetail = false;
             }
         }
 
@@ -208,11 +208,11 @@ export default function Prescription() {
                     title: "Sucess!",
                     text: "Prescription Generated Sucessfully!",
                     icon: "success"
-                  });
+                });
                 Swal.hideLoading();
                 console.log(response);
                 reSetToInitil();
-              
+
             })
     }
     function reSetToInitil() {
@@ -279,7 +279,7 @@ export default function Prescription() {
 
     }, [selectedPet]);
 
-    
+
 
     return (
         <div className="container-fluid g-0 ">
@@ -325,6 +325,7 @@ export default function Prescription() {
             <hr className="m-0"></hr>
             <div className="row">
                 <div className="col-lg-5  m-2 ">
+                    <label><h5>Description</h5></label>
                     <div className="makeRoundedContainer shadow-lg">
                         <textarea className="form-control  borderColor" id="descriptionArea" rows="3" placeholder="Reason for veterinary help"></textarea>
                     </div>
@@ -332,7 +333,7 @@ export default function Prescription() {
                 <div className="col-lg-3"></div>
                 <div className="col-lg-3">
                     <div class="input-group mt-2 mb-3 ">
-
+                        <   label><h5>Select Pet</h5></label>
                         <div className="className  shadow-lg makeRoundedContainer col-11">
                             <input type="text" id='pet' onFocus={() => { setSelectedPet(null) }} class="form-control bg-white  borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" value={(selectedPet && selectedPet.petId + "-" + selectedPet.petName) || (!selectedPet && null)}></input>
                         </div>
@@ -356,7 +357,7 @@ export default function Prescription() {
 
 
                     <div class="input-group ">
-
+                        <label><h5>Medicine Name</h5></label>
                         <div className="className  shadow-lg makeRoundedContainer col-11">
                             <input type="text" id="medName" {...register("medicineName")} onFocus={() => { setSelectedMedicine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Medicine Name" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && selectedMedicine.medicineName) || (!selectedMedicine && null)} />
                         </div>
@@ -381,7 +382,7 @@ export default function Prescription() {
 
 
                     <div class="input-group  ">
-
+                        <label><h5>Dosage</h5></label>
                         <div className="className shadow-lg makeRoundedContainer col-11">
                             <input type="text" id="dos" {...register("dosage")} class="form-control borderColor bg-white rounded" placeholder="Dosage" aria-label="Amount (to the nearest dollar)" />
                         </div>
@@ -410,10 +411,10 @@ export default function Prescription() {
 
 
                     <div class="input-group ">
-
+                        <label><h5>Daily Quantity</h5></label>
                         <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="number" id="qty" {...register("dailyQuantity",{required:true,pattern:/^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/})} class="form-control bg-white  borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
-                            { errors.dailyQuantity && <span>Provide Daily quantity correctly</span>}
+                            <input type="number" id="qty" {...register("dailyQuantity", { required: true, pattern: /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/ })} class="form-control bg-white  borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
+                            {errors.dailyQuantity && <span>Provide Daily quantity correctly</span>}
                         </div>
 
                         <div class="btn-group col-1 ">
@@ -437,7 +438,7 @@ export default function Prescription() {
 
 
                     <div class="input-group ">
-
+                        <label><h5>Days</h5></label>
                         <div className="className shadow-lg makeRoundedContainer col-11">
                             <input type="number" id="days" {...register("days")} class="form-control bg-white  borderColor rounded" placeholder="days" aria-label="Amount (to the nearest dollar)" />
                         </div>
@@ -462,6 +463,7 @@ export default function Prescription() {
                 <div className="col-lg-1">
                     <div className="container d-flex align-items-center m-2">
                         <div className="row ">
+                            <label><h5>&nbsp;</h5></label>
                             <div className="col-6  ">
                                 {updateMode && (
                                     <button onClick={handleSubmit(submit)} className="btn btn-light p-0 m-0 g-0">
@@ -488,19 +490,22 @@ export default function Prescription() {
 
                 </div>
                 <div className="col-lg-2 m-2 mb-3">
+                    <label><h5>Price</h5></label>
                     <div className="className  shadow-lg makeRoundedContainer col-11">
                         <input type="number" id="price" {...register("price")} onFocus={() => { setSelectedMedicine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && parseFloat(selectedMedicine.price)) || (!selectedMedicine && null)} />
                     </div>
                 </div>
-                <div className="col-lg-3 d-flex align-items-center mb-2">
+                <div className="col-lg-3 mt-4 d-flex align-items-center mb-2">
+
                     <div class="form-check">
+
                         <input class="form-check-input" onClick={() => { setAvailable(!avalable) }} type="checkbox" value="" id="defaultCheck1" />
                         <label class="form-check-label" for="defaultCheck1">
                             Available
                         </label>
                     </div>
                 </div>
-                <div className="col-lg-2  mb-3">
+                <div className="col-lg-2 mt-4 mb-3">
                     <div className="comtainer">
                         <div className="row">
                             <div className="col-1">
