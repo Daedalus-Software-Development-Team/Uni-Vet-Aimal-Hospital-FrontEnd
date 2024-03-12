@@ -45,6 +45,9 @@ export default function NavBar() {
                             <li className="nav-item">
                                 <Link to="/eBook" className="nav-link" href="#">E-Book</Link>
                             </li>
+                            <li className="nav-item">
+                                <Link to="/staff" className="nav-link" href="#">Staff</Link>
+                            </li>
                         </ul>
                         <form className="d-flex" role="search">
                             {/* <button className="btn btn-outline-secondary" type="submit">Login</button> */}

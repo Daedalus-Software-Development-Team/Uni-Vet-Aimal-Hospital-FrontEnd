@@ -9,7 +9,7 @@ import Home from './assets/Componnent/Home/Home'
 
 import Appoinment from './assets/Componnent/Appoinment/Appoinment'
 import Customersignup from './assets/Componnent/Customersignup/Customersignup'
-import Customerlogin from './assets/Componnent/CustomerLogin/Customerlogin'
+import Customerlogin from './assets/Componnent/Customerlogin/Customerlogin'
 
 import Vacination from './assets/Componnent/Vacination/Vacination'
 
@@ -17,6 +17,7 @@ import NavBar from './assets/Componnent/NavBar/NavBar'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Ebook from './assets/Componnent/EBook/Ebook'
+import Staff from './assets/Componnent/Staff/Staff'
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route path='/customerSignUp' element={<Customersignup />}></Route>
         <Route path='/vaccination' element={<Vacination />}></Route>
         <Route path='/eBook' element={<Ebook />}></Route>
+        <Route path='/staff' element={<Staff />}></Route>
       </Routes>
     </BrowserRouter>
 

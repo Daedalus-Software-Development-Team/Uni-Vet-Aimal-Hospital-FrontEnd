@@ -18,72 +18,12 @@ export default function Vacination() {
 
     const [slectedCustomer, setCustomer] = useState(null);
 
-    // const [medicines, setMedicines] = useState(null);
-    // const [selectedMedicine, setSelectedMedicine] = useState(null);
-
-    // const [prescriptionDetailArray, setPrescriptionDetailArray] = useState([]);
-    // const [meal, setMeal] = useState(null);
-
-    // const [avalable, setAvailable] = useState(false);
-
-    // const [reladTable, setReloadTable] = useState(true);
-
-    // const { handleSubmit, register, reset, formState: { errors } } = useForm();
-
-    // const [newId, setNewId] = useState(0);
 
     const [updateMode, setUpdateMode] = useState(false);
 
-    // const precription = {
-    //     customerId: null,
-    //     doctorId: null,
-    //     petId: null,
-    //     description: null,
-    //     total: null,
-    //     prescriptionDetailArray: null
-    // }
+    const [medicines,setMedicines]=useState(false);
 
-
-    // const submit = (data) => {
-    //     data.beforeMeal = meal;
-    //     data.available = avalable;
-    //     if (selectedMedicine != null) {
-    //         data.medicineName = selectedMedicine.medicineName;
-    //         data.medicineId = selectedMedicine.medicineId;
-    //         data.price = parseFloat(selectedMedicine.price);
-    //     } else {
-    //         data.medicineId = "New" + "(" + newId + ")";
-    //         setNewId(newId + 1);
-    //     }
-    //     data.dosage = document.getElementById('dos').value;
-    //     data.dailyQuantity = document.getElementById('qty').value;
-    //     data.days = document.getElementById('days').value;
-
-
-    //     console.log(meal);
-    //     console.log(data);
-
-    //     addPrescriptionDetail(data);
-    //     resetForm();
-
-    // }
-
-    // const resetForm = () => {
-    //     setSelectedMedicine(null);
-    //     setMeal(null);
-    //     setAvailable(false);
-    //     reset(); // Reset react-hook-form fields
-    //     document.getElementById('medName').value = null;
-    //     document.getElementById('dos').value = null;
-    //     document.getElementById('qty').value = null;
-    //     document.getElementById('days').value = null;
-    //     document.getElementById('price').value = null;
-    //     document.getElementById('defaultCheck1').checked = false;
-    //     document.getElementById('bMeal').checked = null;
-    //     document.getElementById('aMeal').checked = null;
-
-    //     setUpdateMode(false);
-    // }
+   
 
     const selectedDoctor = {
         doctorId: 1,
@@ -94,135 +34,7 @@ export default function Vacination() {
 
     }
 
-    // const [total, setTotal] = useState(selectedDoctor.channelingFee);
-
-    // function addPrescriptionDetail(perscriptionDetail) {
-
-    //     let newDetail = true;
-
-
-    //     if (newDetail) {
-    //         const updatedPrescriptionDetailArray = [...prescriptionDetailArray, perscriptionDetail];
-    //         setPrescriptionDetailArray(updatedPrescriptionDetailArray);
-    //         console.log("hello");
-    //         console.log(prescriptionDetailArray);
-    //         // console.log(updatedPrescriptionDetailArray);
-    //         calculateTotal(updatedPrescriptionDetailArray);
-
-    //     } else {
-    //         setReloadTable(!reladTable);
-    //         setUpdateMode(false);
-    //         calculateTotal(prescriptionDetailArray);
-    //     }
-
-    // }
-
-
-    // function deleteMedicineDetail(data) {
-    //     for (let i = 0; i < prescriptionDetailArray.length; i++) {
-    //         if (prescriptionDetailArray[i].medicineId === data.medicineId) {
-    //             let spliced = prescriptionDetailArray.splice(i, 1);
-    //             console.log("Removed element: " + spliced);
-    //             console.log(prescriptionDetailArray);
-    //         }
-    //     }
-    //     setReloadTable(!reladTable);
-    //     calculateTotal(prescriptionDetailArray);
-    // }
-
-    // function setDetailToUpdate(data) {
-    //     setSelectedMedicine({
-    //         medicineId: data.medicineId,
-    //         medicineName: data.medicineName,
-    //         price: parseFloat(data.price)
-    //     });
-    //     reset();
-
-    //     document.getElementById('medName').value = data.medicineName;
-    //     document.getElementById('dos').value = data.dosage;
-    //     document.getElementById('qty').value = data.dailyQuantity;
-    //     document.getElementById('days').value = data.days;
-    //     document.getElementById('price').value = parseFloat(data.price);
-    //     document.getElementById('defaultCheck1').checked = data.available;
-    //     if (data.beforeMeal != null) {
-    //         document.getElementById('bMeal').checked = data.beforeMeal;
-    //         document.getElementById('aMeal').checked = !data.beforeMeal;
-    //     } else {
-    //         document.getElementById('bMeal').checked = null;
-    //         document.getElementById('aMeal').checked = null;
-    //     }
-    //     setUpdateMode(true);
-
-    // }
-
-    // function calculateTotal(array) {
-
-    //     console.log("hi")
-    //     console.log(array);
-    //     let tot = 0;
-    //     for (let i = 0; i < array.length; i++) {
-    //         if (array[i].available) {
-    //             tot += parseFloat(array[i].price);
-    //         }
-    //     }
-    //     tot = tot + selectedDoctor.channelingFee;
-    //     setTotal(tot);
-    //     console.log(tot);
-
-    // }
-
-    // function createPrescription() {
-
-    //     for (let i = 0; i < prescriptionDetailArray.length; i++) {
-    //         if ((prescriptionDetailArray[i].medicineId + "").charAt(0) == 'N') {
-    //             prescriptionDetailArray[i].medicineId = null;
-    //         }
-    //     }
-
-    //     precription.customerId = slectedCustomer.customerId;
-    //     precription.doctorId = selectedDoctor.doctorId;
-    //     precription.petId = selectedPet.petId;
-    //     precription.description = document.getElementById('descriptionArea').value;
-    //     precription.total = total;
-    //     precription.prescriptionDetailArray = prescriptionDetailArray
-
-    //     console.log(precription);
-    //     postData();
-
-    // }
-
-    // function postData() {
-    //     Swal.fire('Please wait')
-    //     Swal.showLoading();
-    //     axios.post('http://localhost:8080/prescription', precription)
-    //         .then(function (response) {
-    //             Swal.fire({
-    //                 title: "Sucess!",
-    //                 text: "Prescription Generated Sucessfully!",
-    //                 icon: "success"
-    //               });
-    //             Swal.hideLoading();
-    //             console.log(response);
-    //             reSetToInitil();
-
-    //         })
-    // }
-    // function reSetToInitil() {
-
-    //     document.getElementById('descriptionArea').value = "";
-    //     document.getElementById('pet').value = "";
-
-    //     setPrescriptionDetailArray([]);
-    //     setSelectedPet(null);
-    //     setCustomer(null);
-    //     setSelectedMedicine(null);
-    //     setMeal(null)
-    //     setAvailable(false);
-    //     setReloadTable(true);
-    //     setNewId(0);
-    //     setUpdateMode(false);
-    //     setTotal(selectedDoctor.channelingFee);
-    // }
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -253,17 +65,7 @@ export default function Vacination() {
                 }
             }
 
-            // try {
-            //     const response = await fetch("http://localhost:8080/medicine");
-            //     const data = await response.json();
-            //     console.log(data)
-
-            //     setMedicines(data);
-
-            // } catch (error) {
-
-            //     console.log("Error fetching medicine data:", error);
-            // }
+           
 
 
         };
@@ -316,11 +118,7 @@ export default function Vacination() {
             </div>
             <hr className="m-0"></hr>
             <div className="row">
-                <div className="col-lg-5  m-2 ">
-                    {/* <div className="makeRoundedContainer shadow-lg">
-                        <textarea className="form-control  borderColor" id="descriptionArea" rows="3" placeholder="Reason for veterinary help"></textarea>
-                    </div> */}
-                </div>
+                <div className="col-lg-5  m-2 "></div>
                 <div className="col-lg-3"></div>
                 <div className="col-lg-3">
                     <div class="input-group mt-2 mb-3 ">
