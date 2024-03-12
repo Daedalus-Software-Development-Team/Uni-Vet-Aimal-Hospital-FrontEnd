@@ -2,16 +2,13 @@ import axios from 'axios';
 
 import React, { useEffect, useState, } from 'react';
 
-
 const Customerlogin = () => {
     const[customer,setCustomer]=useState({
         email:'',
         password:''
     })
 
-
     const[num,setNum]=useState(1);
-
 
     useEffect(()=>{
         console.log(customer);
@@ -81,14 +78,12 @@ const Customerlogin = () => {
                     <label class="form-label student-label mx-3">Password</label>
                     <input value={customer.password}  onChange={passwordHandler} type="password" id="userPassword" class="form-control input-Field mb-2 mx-3" />
                     
-
-                    <div className="buttonFrame">
+                    <div className="buttonFrame m-1">
                         <button type="submit" onClick={(e)=>{
                             setNum((pre)=>{
                                 return pre==1?0:1;
                             })
                         }} class="btn btn-primary mt-3 submit-button">Log-in</button>
-
                     </div>
 
                 </div>
