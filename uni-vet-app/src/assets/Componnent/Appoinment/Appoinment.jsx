@@ -6,6 +6,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import CheckIcon from '@mui/icons-material/Check';
 import './Appoinment.css';
 import appoinment from '../../img/appoinment.jpg'
+import Swal from 'sweetalert2'
 
 
 import React, { useEffect, useState } from 'react'
@@ -35,10 +36,10 @@ const Appoinment = () => {
                 <div className="col-5">
                     <h1 className='heading'>Schedule Your Appoinment Here</h1>
                 </div>
-                    <div className="col-4">
-                        <img src={appoinment} className="d-block appoinment" alt="..." />
-                        </div>
-                        <div className="col-4"></div>
+                <div className="col-4">
+                    <img src={appoinment} className="d-block appoinment" alt="..." />
+                </div>
+                <div className="col-4"></div>
             </div>
             <div className="row">
                 <div className="col-2"></div>
@@ -115,6 +116,12 @@ const Appoinment = () => {
                             <Alert icon={<CheckIcon />} severity="success">
                                 Here is a gentle confirmation that your action was successful.
                             </Alert>
+
+                            Swal.fire({
+                                title: "Sucess!",
+                                text: "Sucessfully Added Appoinment!",
+                                icon: "success"
+                            });
                         }}>Note My Appoinment</Button>
 
 
