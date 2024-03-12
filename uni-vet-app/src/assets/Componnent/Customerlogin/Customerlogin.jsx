@@ -78,7 +78,7 @@ const Customerlogin = () => {
                     <label class="form-label student-label mx-3">Password</label>
                     <input value={customer.password}  onChange={passwordHandler} type="password" id="userPassword" class="form-control input-Field mb-2 mx-3" />
                     
-                    <div className="buttonFrame">
+                    <div className="buttonFrame m-1">
                         <button type="submit" onClick={(e)=>{
                             setNum((pre)=>{
                                 return pre==1?0:1;
