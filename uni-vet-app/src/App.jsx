@@ -16,6 +16,7 @@ import Vacination from './assets/Componnent/Vacination/Vacination'
 import NavBar from './assets/Componnent/NavBar/NavBar'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Ebook from './assets/Componnent/EBook/Ebook'
 
 
 function App() {
@@ -33,6 +34,8 @@ function App() {
         <Route path='/addPetDetails' element={<PetDetails />}></Route>
         <Route path='/customerLogin' element={<Customerlogin />}></Route>
         <Route path='/customerSignUp' element={<Customersignup />}></Route>
+        <Route path='/vaccination' element={<Vacination />}></Route>
+        <Route path='/eBook' element={<Ebook />}></Route>
       </Routes>
     </BrowserRouter>
 

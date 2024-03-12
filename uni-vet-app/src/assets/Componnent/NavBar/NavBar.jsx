@@ -21,12 +21,12 @@ export default function NavBar() {
                             <li className="nav-item">
                                 <Link to="/" className="nav-link active" aria-current="page" >Home</Link>
                             </li>
-                            <li className="nav-item">
+                            {/* <li className="nav-item">
                                 <a className="nav-link" href="#">About Us</a>
                             </li>
                             <li className="nav-item">
                                 <a className="nav-link" href="#">Our Service</a>
-                            </li>
+                            </li> */}
                             <li className="nav-item">
                                 <Link to="/addPet" className="nav-link">Add Pet</Link>
                             </li>
@@ -38,6 +38,12 @@ export default function NavBar() {
                             </li>
                             <li className="nav-item">
                                 <Link to="/prescription" className="nav-link" href="#">Prescription</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/vaccination" className="nav-link" href="#">Vaccination</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/eBook" className="nav-link" href="#">E-Book</Link>
                             </li>
                         </ul>
                         <form className="d-flex" role="search">

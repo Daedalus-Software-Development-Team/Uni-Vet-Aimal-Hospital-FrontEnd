@@ -62,17 +62,21 @@ const Customerlogin = () => {
 
     return (
         <div className="row">
-            <div className="col-2"></div>
-            <div className="col-8 logFrame">
-                <div className="customerLog">
+            <div className="col-3"></div>
+            <div className="col-6 logFrame">
+                <div className="customerLog" style={{
+                    boxShadow:"10px 10px 8px 10px #888888",
+                    marginTop:'150px',
+                    overflowX:'hidden'
+                }}>
                     <div className="customer-login-name mt-2">
-                        <h3 className="customer-login">Customer Login</h3>
+                        <h3 className="customer-login mx-3">Customer Login</h3>
                         <hr />
                     </div>
-                    <label class="form-label student-label">Email</label>
-                    <input value={customer.email} onChange={emailHandler}  type="text" id="userEmail" class="form-control input-Field mb-2" />
-                    <label class="form-label student-label">Password</label>
-                    <input value={customer.password}  onChange={passwordHandler} type="password" id="userPassword" class="form-control input-Field mb-2" />
+                    <label class="form-label student-label mx-3">Email</label>
+                    <input value={customer.email} onChange={emailHandler}  type="text" id="userEmail" class="form-control input-Field mb-2 mx-3" />
+                    <label class="form-label student-label mx-3">Password</label>
+                    <input value={customer.password}  onChange={passwordHandler} type="password" id="userPassword" class="form-control input-Field mb-2 mx-3" />
                     
                     <div className="buttonFrame">
                         <button type="submit" onClick={(e)=>{
