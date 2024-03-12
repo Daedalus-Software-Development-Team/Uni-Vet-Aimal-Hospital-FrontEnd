@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import React, { useState, } from 'react';
-import Swal from 'sweetalert2'
+import React, { useEffect, useState, } from 'react';
+
 
 const Customerlogin = () => {
     const[customer,setCustomer]=useState({
@@ -9,39 +9,37 @@ const Customerlogin = () => {
         password:''
     })
 
-    const handlePostRequest = async () => {
-        try {
-        
-            const apiUrl = "http://localhost:8080/customer";
 
-            const responce = await axios.post(apiUrl, customer);
-
-            console.log("Succefull", responce);
+    const[num,setNum]=useState(1);
 
 
-
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    function submitOnHandle() {
-
-
-        customer.firstName = firstNameC;
-        customer.lastName = lastNameC;
-        customer.email = emailC;
-        customer.nicNum = nicNumC;
-        Swal.fire({
-            title: "Sucess!",
-            text: "Sucessfully Added Appoinment!",
-            icon: "success"
-        });
-
+    useEffect(()=>{
         console.log(customer);
+
+        const handlePostRequest = async () => {
+            try {
+    
+                const apiUrl = "http://localhost:8080/login";
+    
+                const responce = await axios.post(apiUrl, customer);
+    
+                console.log("Succefull", responce);
+                console.log("Succefull", responce.data);
+                
+    
+    
+    
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
         handlePostRequest();
-    }
+    },[num])
+
+
+
+    
 
     const emailHandler=(e)=>{
     setCustomer((pre)=>(
@@ -83,18 +81,14 @@ const Customerlogin = () => {
                     <label class="form-label student-label mx-3">Password</label>
                     <input value={customer.password}  onChange={passwordHandler} type="password" id="userPassword" class="form-control input-Field mb-2 mx-3" />
                     
-                    <div className="buttonFrame mx-3" style={{
-                        marginBottom:'10px'
-                    }}>
-                        <button type="submit" class="btn btn-primary mt-3 submit-button" style={{
-                            marginBottom:'10px'
-                        }} onClick={()=>{
-                               Swal.fire({
-                                title: "Sucess!",
-                                text: "Login Sucessfully!",
-                                icon: "success"
-                            });
-                        }}>Log-in</button>
+
+                    <div className="buttonFrame">
+                        <button type="submit" onClick={(e)=>{
+                            setNum((pre)=>{
+                                return pre==1?0:1;
+                            })
+                        }} class="btn btn-primary mt-3 submit-button">Log-in</button>
+
                     </div>
 
                 </div>
