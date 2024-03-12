@@ -26,13 +26,17 @@ export default function Vacination() {
 
     const { handleSubmit, register, reset, formState: { errors } } = useForm();
 
-    const [avalable, setAvailable] = useState(false);
-    const [petDetails, setPetDetails]=useState(null);
-    const [petVacDetails,setPetVacDetails]=useState(null);
+    const [given, setGiven] = useState(false);
+    const [petDetails, setPetDetails] = useState(null);
+    const [petVacDetails, setPetVacDetails] = useState(null);
 
-    const [reloadTable, setReloadTable]=useState(false);
+    const [reloadTable, setReloadTable] = useState(false);
+    const [delVac, setDelVac] = useState(null);
 
-    
+    const [updateVac ,setUpdateVac]= useState(null);
+    const [updateDet ,setUpdateDet]= useState(null);
+
+
 
 
     const selectedDoctor = {
@@ -44,34 +48,81 @@ export default function Vacination() {
     }
 
     const petDetailJSON = {
+        petDetailId:null,
         petId: null,
         vaccineId: null,
         date: null,
-        given: null
+        given: null,
+        dosage:null
     }
-    
+
     const submit = async (data) => {
-        data.petId = selectedPet.petId;
-        data.given = avalable;
-        data.price = document.getElementById('vacPrice').value;
-        data.vaccinationName = document.getElementById('vacName').value;
-    
-        if(selectedVaccine != null){
-            data.vaccineId = selectedVaccine.vaccineId;
-        } else {
-            const newVac=await createNewVaccine(data);
-            console.log("came");
-            // console.log(h)
-            data.vaccineId = newVac.vaccineId;
+        if (updateMode) { 
             
+            const currentVacName=document.getElementById('vacName').value;
+            const currentVacPrice=document.getElementById('vacPrice').value;
+            data.petId = selectedPet.petId;
+            data.given = document.getElementById('vacGiven').checked;
+            data.date = document.getElementById('vacDate').value;
+            data.dosage = document.getElementById('vacDosage').value;
+            data.petDetailId = updateDet.petDetailId;
+            if(currentVacName==updateVac.vaccineName && currentVacPrice==updateVac.price){
+                data.vaccineId=updateVac.vaccineId;
+            }else if(currentVacName==updateVac.vaccineName){
+               
+                
+                data.price =currentVacPrice;
+                data.vaccinationName = currentVacName;
+                data.vaccineId=updateVac.vaccineId;
+                const newVac = await createNewVaccine(data);
+            }else{
+                     
+                data.price =currentVacPrice;
+                data.vaccinationName = currentVacName;
+                data.vaccineId=null;
+                const newVac = await createNewVaccine(data);
+                data.vaccineId=newVac.vaccineId;
+            }
+            postPetDetail(data);
+            clearFields();
+            setUpdateMode(false);
+
+        } else {
+            data.petId = selectedPet.petId;
+            data.given = given;
+            data.price = document.getElementById('vacPrice').value;
+            data.vaccinationName = document.getElementById('vacName').value;
+
+            if (selectedVaccine != null) {
+                data.vaccineId = selectedVaccine.vaccineId;
+            } else {
+                data.vaccineId=null;
+                const newVac = await createNewVaccine(data);
+                console.log("came");
+                // console.log(h)
+                data.vaccineId = newVac.vaccineId;
+
+            }
+            data.petDetailId=null;
+            console.log(data);
+            postPetDetail(data);
+            clearFields();
         }
-    
-        console.log(data);
-        postPetDetail(data);
     }
-    
+    function clearFields() {
+        setSelectedVaccine(null);
+        setGiven(false);
+        reset();
+        document.getElementById('vacPrice').value = null;
+        document.getElementById('vacName').value = null;
+        document.getElementById('vacDosage').value = null;
+        document.getElementById('vacDate').value = null;
+        document.getElementById('vacGiven').checked = false;
+
+    }
+
     // Modified createNewVaccine function to return promise
-    
+
 
     function createNewVaccine(data) {
         return new Promise((resolve, reject) => {
@@ -79,44 +130,46 @@ export default function Vacination() {
                 try {
                     const apiUrl = "http://localhost:8080/vaccine";
                     const response = await axios.post(apiUrl, {
+                        vaccineId: data.vaccineId,
                         vaccineName: data.vaccinationName,
                         price: data.price
                     });
-    
+
                     console.log("Successful", response);
                     console.log("Successful", response.data);
-                    
+
                     resolve(response.data);
                 } catch (error) {
                     console.log(error);
                     reject(error);
                 }
             }
-    
+
             handleMedRequest();
         });
     }
-    
-    function postPetDetail(data){
-        petDetailJSON.petId=data.petId;
-        petDetailJSON.given=data.given;
-        petDetailJSON.vaccineId=data.vaccineId;
-        petDetailJSON.date=data.date;
-        petDetailJSON.dosage=data.dosage;
-        
+
+    function postPetDetail(data) {
+        petDetailJSON.petDetailId=data.petDetailId;
+        petDetailJSON.petId = data.petId;
+        petDetailJSON.given = data.given;
+        petDetailJSON.vaccineId = data.vaccineId;
+        petDetailJSON.date = data.date;
+        petDetailJSON.dosage = data.dosage;
+
         const handlePostRequest = async () => {
             try {
-    
+
                 const apiUrl = "http://localhost:8080/petDetail";
-    
+
                 const responce = await axios.post(apiUrl, petDetailJSON);
-    
+
                 console.log("Succefull", responce);
                 console.log("Succefull", responce.data);
-                
+
                 setReloadTable(!reloadTable);
-    
-    
+
+
             } catch (error) {
                 console.log(error);
             }
@@ -124,7 +177,40 @@ export default function Vacination() {
 
         handlePostRequest();
     }
-    
+    function deleteVacDetail() {
+        console.log(delVac.petDetailId);
+        Swal.fire('Please wait')
+        Swal.showLoading();
+        axios.delete(`http://localhost:8080/petDetail/${delVac.petDetailId}`)
+            .then(response => {
+                console.log('Resource deleted successfully:', response.data);
+                Swal.fire({
+                    title: "Sucess!",
+                    text: "Deleted Sucessfully!",
+                    icon: "success"
+                });
+                Swal.hideLoading();
+                console.log(response);
+                setReloadTable(!reloadTable);
+                setDelVac(null);
+            })
+            .catch(error => {
+                console.error('Error deleting resource:', error);
+            });
+    }
+
+    function setVacToUpdate(data, vacDetail) {
+        document.getElementById('vacPrice').value = vacDetail.price;
+        document.getElementById('vacName').value = vacDetail.vaccineName;
+        document.getElementById('vacDosage').value = data.dosage;
+        document.getElementById('vacDate').value = data.date;
+        document.getElementById('vacGiven').checked = data.given;
+        setUpdateVac(vacDetail);
+        setUpdateDet(data);
+        setUpdateMode(true);
+    }
+
+
 
 
     useEffect(() => {
@@ -170,7 +256,7 @@ export default function Vacination() {
 
             try {
 
-                const apiUrl = "http://localhost:8080/petDetail";
+                const apiUrl = `http://localhost:8080/petDetail/petId/${selectedPet.petId}`;
                 const responce = await axios.get(apiUrl);
 
                 console.log("SuccefullPetDetails", responce);
@@ -194,7 +280,7 @@ export default function Vacination() {
         };
         fetchData();
 
-    }, [selectedPet,reloadTable]);
+    }, [selectedPet, reloadTable]);
 
 
 
@@ -245,7 +331,7 @@ export default function Vacination() {
                 <div className="col-lg-3"></div>
                 <div className="col-lg-3">
                     <div class="input-group mt-2 mb-3 ">
-
+                        <label><h5>Select Pet</h5></label>
                         <div className="className  shadow-lg makeRoundedContainer col-11">
                             <input type="text" id='pet' onFocus={() => { setSelectedPet(null) }} class="form-control bg-white  borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" value={(selectedPet && selectedPet.petId + "-" + selectedPet.petName) || (!selectedPet && null)}></input>
                         </div>
@@ -269,9 +355,9 @@ export default function Vacination() {
                 <div className="col-lg-3 m-2">
 
                     <div class="input-group ">
-
+                        <label><h5>Vaccine Name</h5></label>
                         <div className="className  shadow-lg makeRoundedContainer col-11">
-                            <input type="text" id="vacName" {...register("vaccinationName")} onFocus={() => { setSelectedVaccine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Medicine Name" aria-label="Amount (to the nearest dollar)" value={(selectedVaccine && selectedVaccine.vaccineName) || (!selectedVaccine && null)} />
+                            <input type="text" id="vacName" {...register("vaccinationName")} onFocus={() => { setSelectedVaccine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Vaccine Name" aria-label="Amount (to the nearest dollar)" value={(selectedVaccine && selectedVaccine.vaccineName) || (!selectedVaccine && null)} />
 
                         </div>
 
@@ -292,10 +378,23 @@ export default function Vacination() {
                 <div className="col-lg-2 m-2">
 
                     <div class="input-group ">
-
+                        <label><h5>Price</h5></label>
                         <div className="className  shadow-lg makeRoundedContainer col-12">
 
-                            <input type="text" id="vacPrice" {...register("price")} onFocus={() => { setSelectedVaccine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Medicine Name" aria-label="Amount (to the nearest dollar)" value={(selectedVaccine && selectedVaccine.price) || (!selectedVaccine && null)} />
+                            <input type="text" id="vacPrice" {...register("price")} onFocus={() => { setSelectedVaccine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedVaccine && selectedVaccine.price) || (!selectedVaccine && null)} />
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div className="col-lg-2 m-2">
+                    <label><h5>Dosage</h5></label>
+                    <div class="input-group ">
+
+                        <div className="className  shadow-lg makeRoundedContainer col-12">
+                            <input type="text" {...register("dosage")} id="vacDosage" class="form-control bg-white  borderColor rounded" placeholder="Dosage" aria-label="Amount (to the nearest dollar)" />
+
                         </div>
 
 
@@ -305,37 +404,18 @@ export default function Vacination() {
                 <div className="col-lg-2 m-2">
 
                     <div class="input-group ">
-
-                        <div className="className  shadow-lg makeRoundedContainer col-12">
-                            <input type="text" {...register("dosage")} id="medName" class="form-control bg-white  borderColor rounded" placeholder="Dosage" aria-label="Amount (to the nearest dollar)" />
-
-                            {/* <input type="text" id="medName" {...register("medicineName")} onFocus={() => { setSelectedMedicine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Medicine Name" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && selectedMedicine.medicineName) || (!selectedMedicine && null)} /> */}
-                        </div>
-
-
-
-                    </div>
-                </div>
-                <div className="col-lg-2 m-2">
-
-                    <div class="input-group ">
-
+                        <label><h5>Date</h5></label>
                         <div className="className  shadow-lg makeRoundedContainer col-11">
-                            <input type="text" id="medName"  {...register("date")} class="form-control bg-white  borderColor rounded" placeholder="Date" aria-label="Amount (to the nearest dollar)" />
-
-                            {/* <input type="text" id="medName" {...register("medicineName")} onFocus={() => { setSelectedMedicine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Medicine Name" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && selectedMedicine.medicineName) || (!selectedMedicine && null)} /> */}
+                            <input type="text" id="vacDate"  {...register("date", { required: true, pattern: /\d\d\d\d-\d\d-\d\d/ })} class="form-control bg-white  borderColor rounded" placeholder="Date" aria-label="Amount (to the nearest dollar)" />
+                            {errors.date && <span>Provide Date correctly</span>}
                         </div>
-
+                        
                         <div class="btn-group col-1 ">
 
                             <button type="button" class="btn btn-outline-primary addLeftMargin rounded   dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="visually-hidden">Toggle Dropdown</span>
                             </button>
-                            {/* <ul class="dropdown-menu">
-                                    {medicines && medicines.map((medicine) => (
-                                        <button onClick={() => { setSelectedMedicine(medicine) }} className='btn btn-light w-100'>{medicine.medicineId} - {medicine.medicineName} </button>
-                                    ))}
-                                </ul> */}
+
                         </div>
 
                     </div>
@@ -344,7 +424,7 @@ export default function Vacination() {
                 <div className='col-lg-1 m-2'></div>
                 <div className="col-lg-1 d-flex align-items-center m-2">
                     <div class="form-check">
-                        <input class="form-check-input" onClick={() => { setAvailable(!avalable) }} type="checkbox" value="" id="defaultCheck1" />
+                        <input class="form-check-input" onClick={() => { setGiven(!given) }} type="checkbox" value="" id="vacGiven" />
                         <label class="form-check-label" for="defaultCheck1">
                             Given
                         </label>
@@ -355,7 +435,7 @@ export default function Vacination() {
                         <div className="row ">
                             <div className="col-6  ">
                                 {updateMode && (
-                                    <button className="btn btn-light p-0 m-0 g-0">
+                                    <button onClick={handleSubmit(submit)} className="btn btn-light p-0 m-0 g-0">
                                         <img height="40px" src={updateImage}></img>
                                     </button>
                                 )
@@ -378,153 +458,6 @@ export default function Vacination() {
 
 
                 </div>
-                {/* 
-
-                <div className="col-lg-2 m-2">
-
-
-                    <div class="input-group  ">
-
-                        <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="text" id="dos" {...register("dosage")} class="form-control borderColor bg-white rounded" placeholder="Dosage" aria-label="Amount (to the nearest dollar)" />
-                        </div>
-
-                        <div class="btn-group col-1 ">
-
-                            <button type="button" class="btn btn-outline-primary addLeftMargin rounded   dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-
-                                <button onClick={() => { document.getElementById('dos').value = "1 pill" }} className='btn btn-light w-100'>1 pill</button>
-                                <button onClick={() => { document.getElementById('dos').value = "2 pill" }} className='btn btn-light w-100'>2 pill</button>
-                                <button onClick={() => { document.getElementById('dos').value = "3 pill" }} className='btn btn-light w-100'>3 pill</button>
-                                <button onClick={() => { document.getElementById('dos').value = "2.5 ml" }} className='btn btn-light w-100'>2.5 ml</button>
-                                <button onClick={() => { document.getElementById('dos').value = "5 ml" }} className='btn btn-light w-100'>5 ml</button>
-                                <button onClick={() => { document.getElementById('dos').value = "7.5 ml" }} className='btn btn-light w-100'>7.5 ml</button>
-
-
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="col-lg-2 m-2">
-
-
-                    <div class="input-group ">
-
-                        <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="number" id="qty" {...register("dailyQuantity")} class="form-control bg-white  borderColor rounded" placeholder="Quantity per day" aria-label="Amount (to the nearest dollar)" />
-                        </div>
-
-                        <div class="btn-group col-1 ">
-
-                            <button type="button" class="btn btn-outline-primary addLeftMargin rounded   dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <button onClick={() => { document.getElementById('qty').value = 1 }} className='btn btn-light w-100'>1 </button>
-                                <button onClick={() => { document.getElementById('qty').value = 2 }} className='btn btn-light w-100'>2 </button>
-                                <button onClick={() => { document.getElementById('qty').value = 3 }} className='btn btn-light w-100'>3 </button>
-                                <button onClick={() => { document.getElementById('qty').value = 4 }} className='btn btn-light w-100'>4 </button>
-                                <button onClick={() => { document.getElementById('qty').value = 5 }} className='btn btn-light w-100'>5 </button>
-                                <button onClick={() => { document.getElementById('qty').value = 6 }} className='btn btn-light w-100'>6 </button>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="col-lg-1 m-2">
-
-
-                    <div class="input-group ">
-
-                        <div className="className shadow-lg makeRoundedContainer col-11">
-                            <input type="number" id="days" {...register("days")} class="form-control bg-white  borderColor rounded" placeholder="days" aria-label="Amount (to the nearest dollar)" />
-                        </div>
-
-                        <div class="btn-group col-1 ">
-
-                            <button type="button" class="btn btn-outline-primary addLeftMargin rounded   dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span class="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <button onClick={() => { document.getElementById('days').value = 1 }} className='btn btn-light w-100'>1 </button>
-                                <button onClick={() => { document.getElementById('days').value = 2 }} className='btn btn-light w-100'>2 </button>
-                                <button onClick={() => { document.getElementById('days').value = 3 }} className='btn btn-light w-100'>3 </button>
-                                <button onClick={() => { document.getElementById('days').value = 4 }} className='btn btn-light w-100'>4</button>
-                                <button onClick={() => { document.getElementById('days').value = 5 }} className='btn btn-light w-100'>5 </button>
-                                <button onClick={() => { document.getElementById('days').value = 6 }} className='btn btn-light w-100'>6</button>
-                            </ul>
-                        </div>
-
-                    </div>
-                </div>
-                <div className="col-lg-1">
-                    <div className="container d-flex align-items-center m-2">
-                        <div className="row ">
-                            <div className="col-6  ">
-                                {updateMode && (
-                                    <button onClick={handleSubmit(submit)} className="btn btn-light p-0 m-0 g-0">
-                                        <img height="40px" src={updateImage}></img>
-                                    </button>
-                                )
-
-                                    || !updateMode && (
-                                        <button onClick={handleSubmit(submit)} className="btn btn-light p-0 m-0 g-0">
-                                            <img height="40px" src={addImage}></img>
-                                        </button>
-                                    )}
-
-                            </div>
-                            <div className="col-6">
-                                <button onClick={resetForm} className="btn btn-light p-0 m-0 g-0">
-                                    <img height="40px" src={refreshImage}></img>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-                <div className="col-lg-2 m-2 mb-3">
-                    <div className="className  shadow-lg makeRoundedContainer col-11">
-                        <input type="number" id="price" {...register("price")} onFocus={() => { setSelectedMedicine(null) }} class="form-control bg-white  borderColor rounded" placeholder="Price" aria-label="Amount (to the nearest dollar)" value={(selectedMedicine && parseFloat(selectedMedicine.price)) || (!selectedMedicine && null)} />
-                    </div>
-                </div>
-                <div className="col-lg-3 d-flex align-items-center mb-2">
-                    <div class="form-check">
-                        <input class="form-check-input" onClick={() => { setAvailable(!avalable) }} type="checkbox" value="" id="defaultCheck1" />
-                        <label class="form-check-label" for="defaultCheck1">
-                            Available
-                        </label>
-                    </div>
-                </div>
-                <div className="col-lg-2  mb-3">
-                    <div className="comtainer">
-                        <div className="row">
-                            <div className="col-1">
-
-                            </div>
-                            <div className="col-10">
-                                <div class="form-check form-check-inline">
-                                    <input {...register("beforeMeal")} class="form-check-input" type="radio" onClick={() => { setMeal(true) }} name="inlineRadioOptions" id="bMeal" />
-                                    <label class="form-check-label" for="inlineRadio1">Before meals</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input {...register("beforeMeal")} class="form-check-input" type="radio" onClick={() => { setMeal(false) }} name="inlineRadioOptions" id="aMeal" />
-
-                                    <label class="form-check-label" for="inlineRadio2">After meals</label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div> */}
-
 
             </div>
             <div className="row">
@@ -539,6 +472,7 @@ export default function Vacination() {
                                 <th scope="col">Price</th>
                                 <th scope="col">Date</th>
                                 <th scope="col">Given</th>
+                                <th scope="col">Option</th>
 
 
                             </tr>
@@ -546,7 +480,7 @@ export default function Vacination() {
                         <tbody>
 
 
-                            {petDetails && petVacDetails && petDetails.length==petVacDetails.length && petDetails.map((data,index) => (
+                            {petDetails && petVacDetails && petDetails.length == petVacDetails.length && petDetails.map((data, index) => (
 
                                 <tr>
                                     <td >{(data.vaccineId && data.vaccineId) || (!data.vaccineId && "New")}</td>
@@ -558,26 +492,28 @@ export default function Vacination() {
                                         {data.given == true && "Given" || data.given == false && "Not Given"}
 
                                     </td>
-                                    {/* <td className='d-flex justify-content-center'>
+                                    <td className='d-flex justify-content-center'>
                                         <div >
-                                            <button onClick={() => { setDetailToUpdate(data) }} className="btn btn-light  p-2 me-2">
+                                            <button onClick={() => { setVacToUpdate(data, petVacDetails[index]) }} className="btn btn-light  p-2 me-2">
                                                 <i className="bi bi-arrow-up-square"></i>
                                             </button>
-                                            <button onClick={() => { deleteMedicineDetail(data) }} className="btn btn-light p-2 ">
+                                            <button onClick={() => { setDelVac(data) }} data-bs-toggle="modal" data-bs-target="#staticBackdrop" className="btn btn-light p-2 ">
                                                 <i className="bi bi-trash"></i>
                                             </button>
                                         </div>
 
-                                    </td> */}
+                                    </td>
 
                                 </tr>
                             ))}
 
 
 
-                        </tbody> 
+                        </tbody>
                     </table>
+
                 </div>
+
                 {/* <div className="col-lg-1"></div>
                 <div className="col-lg-4"></div>
                 <div className="col-lg-4">
@@ -617,7 +553,24 @@ export default function Vacination() {
             <div className="row m-5"></div>
 
 
-
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Deleted</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are You Sure To Delete This?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button onClick={deleteVacDetail} type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
