@@ -79,7 +79,7 @@ const Customerlogin = () => {
                         alignItems:'center'
                     }}>
                         <img src="src/assets/img/cus.png" alt="" style={{width:'200px', height:'200px' }} />
-                        <h3 className="customer- mt-2">Customer Login</h3>
+                        <h3 className="customer- mt-2">Login</h3>
                         <hr />
                     </div>
                     <label class="form-label student-label mx-3">Email</label>
