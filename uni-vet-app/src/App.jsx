@@ -29,6 +29,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home/>}></Route>
+        <Route path='/:positionwithid' element={<Home/>}></Route>
         <Route path='/prescription' element={<Prescription/>}></Route>
         <Route path='/apointment' element={<Appoinment/>}></Route>
         <Route path='/addPet' element={<AddPet/>}></Route>
