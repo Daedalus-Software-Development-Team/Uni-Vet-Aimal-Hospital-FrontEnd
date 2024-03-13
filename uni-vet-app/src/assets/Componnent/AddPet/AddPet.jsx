@@ -283,7 +283,7 @@ export default function AddPet() {
                     </form>
                 </div>
                 <div className="col-lg-4"></div>
-            </div>
+            </div> 
         </div>
     )
 }

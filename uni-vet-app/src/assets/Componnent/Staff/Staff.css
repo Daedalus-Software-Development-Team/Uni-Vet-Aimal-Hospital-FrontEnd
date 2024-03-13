@@ -1,0 +1,77 @@
+.text{
+  margin-left: 5%;
+    margin-bottom: 5%;
+    color: #7f8184;
+    
+
+}
+.txt2{
+    font-weight:10;  
+}
+
+/* #loginBtn{
+    margin-left: 5%;
+    padding-left: 10%;
+} */
+
+.d-block{
+    margin-top: 0%
+}
+
+.puppy{
+    margin-left: 1%;
+    margin-top: 5%;
+    height: 100%;
+    width: 95%;
+}
+
+.column {
+    float: left;
+    width: 33.33%;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .column {
+    float: left;
+  }
+  
+  .left, .right {
+    width: 25%;
+  }
+  
+  .middle {
+    width: 50%;
+  }
+
+  .theme{
+    /* margin-left: 5%; */
+    color: #7f8184;
+    font-weight: 700;
+  }
+
+  #search1{
+    margin-bottom: 1%;
+    margin-left: 72.5%;
+  }
+
+  #nav{
+    background: #7f8184;
+    color: black;
+    background-color: black;
+  }
+
+  .addFeild{
+    margin-left: 5%;
+  }
+
+  .addbtn{
+    margin-left: 21%;
+    width: 60%;
+
+  }
