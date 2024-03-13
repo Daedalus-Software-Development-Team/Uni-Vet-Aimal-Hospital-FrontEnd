@@ -27,14 +27,14 @@ function App() {
     
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Home />}></Route>
-        <Route path='/prescription' element={<Prescription />}></Route>
-        <Route path='/apointment' element={<Appoinment />}></Route>
-        <Route path='/addPet' element={<AddPet />}></Route>
-        <Route path='/addPetDetails' element={<PetDetails />}></Route>
-        <Route path='/customerLogin' element={<Customerlogin />}></Route>
-        <Route path='/customerSignUp' element={<Customersignup />}></Route>
-        <Route path='/vaccination' element={<Vacination />}></Route>
+        <Route path='/' element={<Home/>}></Route>
+        <Route path='/prescription' element={<Prescription/>}></Route>
+        <Route path='/apointment' element={<Appoinment/>}></Route>
+        <Route path='/addPet' element={<AddPet/>}></Route>
+        <Route path='/addPetDetails' element={<PetDetails/>}></Route>
+        <Route path='/customerLogin' element={<Customerlogin/>}></Route>
+        <Route path='/customerSignUp' element={<Customersignup/>}></Route>
+        <Route path='/vaccination' element={<Vacination/>}></Route>
         <Route path='/eBook' element={<Ebook />}></Route>
       </Routes>
     </BrowserRouter>

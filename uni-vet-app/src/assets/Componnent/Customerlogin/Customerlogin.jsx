@@ -22,6 +22,9 @@ const Customerlogin = () => {
     
                 console.log("Succefull", responce);
                 console.log("Succefull", responce.data);
+
+                
+                    
                 
     
     
@@ -66,11 +69,17 @@ const Customerlogin = () => {
             <div className="col-6 logFrame">
                 <div className="customerLog" style={{
                     boxShadow:"10px 10px 8px 10px #888888",
-                    marginTop:'150px',
+                    marginTop:'10px',
                     overflowX:'hidden'
                 }}>
-                    <div className="customer-login-name mt-2">
-                        <h3 className="customer-login mx-3">Customer Login</h3>
+                    <div className="customer-login-name mt-2" style={{
+                        display:'flex',
+                        flexDirection:'column',
+                        justifyItems:'center',
+                        alignItems:'center'
+                    }}>
+                        <img src="src/assets/img/catdog1.png" alt="" style={{width:'200px', height:'200px'}} />
+                        <h3 className="customer-login">Customer Login</h3>
                         <hr />
                     </div>
                     <label class="form-label student-label mx-3">Email</label>
@@ -78,12 +87,12 @@ const Customerlogin = () => {
                     <label class="form-label student-label mx-3">Password</label>
                     <input value={customer.password}  onChange={passwordHandler} type="password" id="userPassword" class="form-control input-Field mb-2 mx-3" />
                     
-                    <div className="buttonFrame m-1">
+                    <div className="buttonFrame m-1" style={{display:'flex',justifyContent:'center'}}>
                         <button type="submit" onClick={(e)=>{
                             setNum((pre)=>{
                                 return pre==1?0:1;
                             })
-                        }} class="btn btn-primary mt-3 submit-button">Log-in</button>
+                        }} className="btn btn-primary mt-3 submit-button" style={{marginRight:'10px',width:'70%', marginBottom:'10px'}}>Log-in</button>
                     </div>
 
                 </div>
