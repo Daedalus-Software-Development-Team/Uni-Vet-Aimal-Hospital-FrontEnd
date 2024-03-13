@@ -69,17 +69,17 @@ const Customerlogin = () => {
             <div className="col-6 logFrame">
                 <div className="customerLog" style={{
                     boxShadow:"10px 10px 8px 10px #888888",
-                    marginTop:'10px',
+                    marginTop:'150px',
                     overflowX:'hidden'
                 }}>
-                    <div className="customer-login-name mt-2" style={{
+                    <div className="customer-login-name mt-4" style={{
                         display:'flex',
                         flexDirection:'column',
                         justifyItems:'center',
                         alignItems:'center'
                     }}>
-                        <img src="src/assets/img/catdog1.png" alt="" style={{width:'200px', height:'200px'}} />
-                        <h3 className="customer-login">Customer Login</h3>
+                        <img src="src/assets/img/cus.png" alt="" style={{width:'200px', height:'200px' }} />
+                        <h3 className="customer- mt-2">Login</h3>
                         <hr />
                     </div>
                     <label class="form-label student-label mx-3">Email</label>
