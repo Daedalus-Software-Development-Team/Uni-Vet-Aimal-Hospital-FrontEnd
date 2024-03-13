@@ -1,14 +1,17 @@
 import axios from 'axios';
 
 import React, { useEffect, useState, } from 'react';
-
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const Customerlogin = () => {
+    const navigate=useNavigate()
     const[customer,setCustomer]=useState({
         email:'',
         password:''
     })
-
+    
     const[num,setNum]=useState(1);
+    const[positionwithid,setPositionwithid]=useState('');
 
     useEffect(()=>{
         console.log(customer);
@@ -22,6 +25,10 @@ const Customerlogin = () => {
     
                 console.log("Succefull", responce);
                 console.log("Succefull", responce.data);
+
+                if(responce.data.status!='Invalid Username or Password'){
+                    navigate(`/${responce.data.description}`)
+                }
 
                 
                     
@@ -88,11 +95,13 @@ const Customerlogin = () => {
                     <input value={customer.password}  onChange={passwordHandler} type="password" id="userPassword" class="form-control input-Field mb-2 mx-3" />
                     
                     <div className="buttonFrame m-1" style={{display:'flex',justifyContent:'center'}}>
+                        
                         <button type="submit" onClick={(e)=>{
                             setNum((pre)=>{
                                 return pre==1?0:1;
                             })
-                        }} className="btn btn-primary mt-3 submit-button" style={{marginRight:'10px',width:'70%', marginBottom:'10px'}}>Log-in</button>
+                        }} className="btn btn-primary mt-3 submit-button" style={{marginLeft:'170px',width:'50%', marginBottom:'10px'}}>Log-in</button>
+                        
                     </div>
 
                 </div>
