@@ -1,12 +1,89 @@
 import NavBar from "../NavBar/NavBar";
 import './EBook.css';
 import ebook from '../../img/ebook.png'
+import React, { useState, useEffect } from 'react';
+
+
 
 
 export default function Ebook() {
+    const [pets, setPets] = useState(null);
+    const [selectedPet, setSelectedPet] = useState(null);
+
+    const [slectedCustomer, setCustomer] = useState(null);
+
+    const [vaccineDetails, setVaccineDetails] = useState(null);
+    const [vaccineData, setVaccineData]=useState(null);
+    useEffect(() => {
+        const fetchData = async () => {
+
+            try {
+                const response = await fetch("http://localhost:8080/pet");
+                const data = await response.json();
+                console.log(data)
+
+                setPets(data);
+
+            } catch (error) {
+
+                console.log("Error fetching pet data:", error);
+            }
+
+            if (selectedPet != null) {
+                try {
+                    const responseCust = await fetch(`http://localhost:8080/customer/${selectedPet.customerId}`);
+                    const dataCust = await responseCust.json();
+                    console.log(dataCust)
+
+                    setCustomer(dataCust);
+
+                } catch (error) {
+
+                    console.log("Error fetching customer data:", error);
+                }
+
+                try {
+                    const responseCust = await fetch(`http://localhost:8080/ebook/petDetails/${selectedPet.petId}`);
+                    const dataVac = await responseCust.json();
+                    console.log(dataVac)
+
+                    setVaccineDetails(dataVac);
+                    const vacData = await Promise.all(dataVac.map(async vac => {
+                        const responseCust = await fetch(`http://localhost:8080/vaccine/${vac.vaccineId}`);
+                        return responseCust.json();
+                    }));
+    
+                    console.log(vacData);
+                    setVaccineData(vacData);
+
+
+                } catch (error) {
+
+                    console.log("Error fetching customer data:", error);
+                }
+
+                try{
+                    const responsePrescription=await fetch(`http://localhost:8080/ebook/prescriptions/${selectedPet.petId}`);
+                    const respPresData=await responsePrescription.json();
+                    console.log(respPresData);
+
+
+                }
+                catch(error){
+
+                }
+            }
+
+
+
+
+        };
+        fetchData();
+
+    }, [selectedPet]);
     return (
         <div className="container-fluid">
-            <NavBar></NavBar>
+            <NavBar position='doctor'></NavBar>
             <div className="row g-0 m-0">
                 <div class="spinner-border" id="spinner" role="status">
                     <span class="">Loading...</span>
@@ -27,14 +104,28 @@ export default function Ebook() {
                             <div >
                                 <div className='container' id='search1' >
                                     <div className='row mb-3 '>
-                                        <div className='col-lg-12'>
+                                        <div className='col-lg-3'>
                                             <div class="input-group">
-                                                <div class="form-outline" data-mdb-input-init>
-                                                    <input id="search-input" type="search" class="form-control" placeholder='search'/>
+                                                <div class="input-group mt-2 mb-3 ">
+                                                    <label><h5>Select Pet</h5></label>
+                                                    <div className="className  shadow-lg makeRoundedContainer col-11">
+                                                        <input type="text" id='pet' onFocus={() => { setSelectedPet(null) }} class="form-control bg-white  borderColor rounded" placeholder="Selcet Pet" aria-label="Amount (to the nearest dollar)" value={(selectedPet && selectedPet.petId + "-" + selectedPet.petName) || (!selectedPet && null)}></input>
+                                                    </div>
+
+                                                    <div class="btn-group col-1 ">
+
+                                                        <button type="button" class="btn btn-outline-primary addLeftMargin rounded   dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <span class="visually-hidden">Toggle Dropdown</span>
+                                                        </button>
+                                                        <ul class="dropdown-menu">
+                                                            {pets && pets.map((pet) => (
+                                                                <button onClick={() => { setSelectedPet(pet) }} className='btn btn-light w-100'>{pet.petId} - {pet.petName} </button>
+                                                            ))}
+
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
-                                                <button id="search-button" type="button" class="btn btn-success">
-                                                    <i class="bi bi-search"></i>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -45,38 +136,32 @@ export default function Ebook() {
                                         <table class="table table-bordered ">
                                             <thead className="table-warning text-center">
                                                 <tr >
-                                                    <th scope="col">Medicine Id</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Dosage</th>
-                                                    <th scope="col">Timing</th>
-                                                    <th scope="col">Daily Quantity</th>
-                                                    <th scope="col">Days</th>
-                                                    <th scope="col">Price</th>
+                                                    <th scope="col">Vaccine Id</th>
+                                                    <th scope="col">Vaccine Name</th>
+                                                    <th scope="col">Given</th>
+                                                    <th scope="col">Date</th>
                                                     <th scope="col">Option</th>
 
                                                 </tr>
+
                                             </thead>
 
-                                            {/* <tbody>
-                                    {pets && customerDetailArray && pets.length == customerDetailArray.length && pets.map((data, index) => (
+                                            <tbody>
+                                    {vaccineDetails && vaccineData && vaccineDetails.length==vaccineData.length && vaccineDetails.map((data,index) => (
                                         <tr>
-                                            <td >{data.petId}</td>
-                                            <td>{data.petName}</td>
-                                            <td>{data.type}</td>
-                                            <td>{data.genre}</td>
-                                            <td>{data.birthYear}</td>
-                                            <td>{data.customerId}</td>
-                                            <td>{customerDetailArray[index].firstName}</td>
-                                            <td>{customerDetailArray[index].contact}</td>
-                                            <td>{customerDetailArray[index].email}</td>
-                                            <td><button type="button" onClick={() => { setUpdatePet(data) }} data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                                            <td >{data.vaccineId}</td>
+                                            <td>{vaccineData[index].vaccineName}</td>
+                                            <td>{data.given?'Given':'Not Given'}</td>
+                                            <td>{data.date}</td>
+                                            
+                                            {/* <td><button type="button" onClick={() => { setUpdatePet(data) }} data-bs-toggle="modal" data-bs-target="#exampleModal2"
                                                 class="btn btn-success ms-3"><i class="bi bi-pencil-square"></i></button>
                                                 <button type="button" onClick={() => { setDeletePet(data) }} data-bs-toggle="modal" data-bs-target="#staticBackdrop"
                                                     class="btn btn-danger ms-3"><i class="bi bi-trash3"></i></button>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     ))}
-                                </tbody> */}
+                                </tbody>
                                         </table>
                                     </div>
 
@@ -143,21 +228,24 @@ export default function Ebook() {
 
                     </div>
                     <div className="row" >
-                    <div className="col-lg-4"></div>
-                                    <div className="col-lg-8">
-                                        <table class="table table-bordered ">
-                                            <thead className="table-warning text-center">
-                                                <tr >
-                                                    <th scope="col">Vaccine Id</th>
-                                                    <th scope="col">Vaccine Name</th>
-                                                    <th scope="col">Given</th>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Option</th>
-                                                    
-                                                </tr>
-                                            </thead>
+                        <div className="col-lg-4"></div>
+                        <div className="col-lg-8">
+                            <table class="table table-bordered ">
+                                <thead className="table-warning text-center">
+                                    <tr >
+                                        <th scope="col">Medicine Id</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Dosage</th>
+                                        <th scope="col">Timing</th>
+                                        <th scope="col">Daily Quantity</th>
+                                        <th scope="col">Days</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Option</th>
 
-                                            {/* <tbody>
+                                    </tr>
+                                </thead>
+
+                                {/* <tbody>
                                     {pets && customerDetailArray && pets.length == customerDetailArray.length && pets.map((data, index) => (
                                         <tr>
                                             <td >{data.petId}</td>
@@ -177,11 +265,11 @@ export default function Ebook() {
                                         </tr>
                                     ))}
                                 </tbody> */}
-                                        </table>
-                                    </div>
+                            </table>
+                        </div>
 
-                                </div>
-  
+                    </div>
+
                 </div>
             </div>
         </div>
