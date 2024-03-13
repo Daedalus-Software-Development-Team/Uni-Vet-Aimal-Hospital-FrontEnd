@@ -1,8 +1,11 @@
 import './NavBar.css';
 import dog from '../../img/dog.png'
 import { Link } from "react-router-dom";
+import { Button } from '@mui/material';
 
-export default function NavBar() {
+
+
+export default function NavBar(props) {
     return (
         <div className="  g-0 m-0">
             <nav className="navbar navbar-expand-lg bg-body-tertiary" id='nav'>
@@ -27,16 +30,16 @@ export default function NavBar() {
                             <li className="nav-item">
                                 <a className="nav-link" href="#">Our Service</a>
                             </li> */}
-                            <li className="nav-item">
+                            <li className="nav-item" style={{display:`${props.position=='doctor'?'':'none'}`}}>
                                 <Link to="/addPet" className="nav-link">Add Pet</Link>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item" style={{display:`${props.position=='doctor'?'':'none'}`}}>
                                 <Link to="/addPetDetails" className="nav-link" >Add Pet Details</Link>
                             </li>
                             <li className="nav-item">
                                 <Link to="/apointment" className="nav-link" href="#">Appoinment</Link>
                             </li>
-                            <li className="nav-item">
+                            <li className="nav-item" style={{display:`${props.position=='doctor'?'':'none'}`}}>
                                 <Link to="/prescription" className="nav-link" href="#">Prescription</Link>
                             </li>
                             <li className="nav-item">
