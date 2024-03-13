@@ -288,7 +288,7 @@ export default function Prescription() {
                     <span class="">Loading...</span>
                 </div>
                 <div className="col-lg-12 bg-warning g-0  ">
-                    <NavBar />
+                    <NavBar position='doctor' />
                 </div>
                 <div className="col-lg-3">
                     <div className="m-2">

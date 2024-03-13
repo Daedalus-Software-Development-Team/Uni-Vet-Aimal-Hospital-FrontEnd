@@ -2,6 +2,7 @@ import NavBar from "../NavBar/NavBar";
 import './EBook.css';
 import ebook from '../../img/ebook.png'
 import React, { useState, useEffect } from 'react';
+import { Button } from "@mui/material";
 
 
 
@@ -14,6 +15,8 @@ export default function Ebook() {
 
     const [vaccineDetails, setVaccineDetails] = useState(null);
     const [vaccineData, setVaccineData]=useState(null);
+
+    const[presData,setPresData]=useState(null);
     useEffect(() => {
         const fetchData = async () => {
 
@@ -65,6 +68,8 @@ export default function Ebook() {
                 try{
                     const responsePrescription=await fetch(`http://localhost:8080/ebook/prescriptions/${selectedPet.petId}`);
                     const respPresData=await responsePrescription.json();
+
+                    setPresData(respPresData);
                     console.log(respPresData);
 
 
@@ -95,9 +100,11 @@ export default function Ebook() {
                 <div className='container' >
                     <div className='row mb-4'>
                         <div className='col-lg-4'>
-                            <div>
+                            <div style={{display:"flex",flexDirection:'column',justifyContent:'center',justifyItems:'center'}}>
                                 <h1 className='theme'>LET'S SEE E-Book HERE</h1>
                                 <img src={ebook} className="d-block ebook" alt="..." />
+                                <button type="button" class="btn btn-outline-primary mt-5" style={{width:'50%'}} onClick={()=>{}}>PRINT YOUR E-BOOK</button>
+                                
                             </div>
                         </div>
                         <div className='col-lg-8'>
@@ -229,43 +236,44 @@ export default function Ebook() {
                     </div>
                     <div className="row" >
                         <div className="col-lg-4"></div>
-                        <div className="col-lg-8">
+                        <div className="col-lg-8">{presData && presData.map((value)=>(
                             <table class="table table-bordered ">
-                                <thead className="table-warning text-center">
-                                    <tr >
-                                        <th scope="col">Medicine Id</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Dosage</th>
-                                        <th scope="col">Timing</th>
-                                        <th scope="col">Daily Quantity</th>
-                                        <th scope="col">Days</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Option</th>
+                            <thead className="table-warning text-center">
+                                <tr >
+                                    <th scope="col">Medicine Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Dosage</th>
+                                    <th scope="col">Timing</th>
+                                    <th scope="col">Daily Quantity</th>
+                                    <th scope="col">Days</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Option</th>
 
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {value.prescriptionDetailArray.map((data, index) => (
+                                    <tr>
+                                        <td >{data.medicineId}</td>
+                                        <td>{data.medicineName}</td>
+                                        <td>{data.dosage}</td>
+                                        <td>{data.beforeMeal?'Before Meal':'After Meal'}</td>
+                                        <td>{data.dailyQuantity}</td>
+                                        <td>{data.days}</td>
+                                        <td>{data.price}</td>
+                                        
+                                        {/* <td><button type="button" onClick={() => { setUpdatePet(data) }} data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                                            class="btn btn-success ms-3"><i class="bi bi-pencil-square"></i></button>
+                                            <button type="button" onClick={() => { setDeletePet(data) }} data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                                                class="btn btn-danger ms-3"><i class="bi bi-trash3"></i></button>
+                                        </td> */}
                                     </tr>
-                                </thead>
-
-                                {/* <tbody>
-                                    {pets && customerDetailArray && pets.length == customerDetailArray.length && pets.map((data, index) => (
-                                        <tr>
-                                            <td >{data.petId}</td>
-                                            <td>{data.petName}</td>
-                                            <td>{data.type}</td>
-                                            <td>{data.genre}</td>
-                                            <td>{data.birthYear}</td>
-                                            <td>{data.customerId}</td>
-                                            <td>{customerDetailArray[index].firstName}</td>
-                                            <td>{customerDetailArray[index].contact}</td>
-                                            <td>{customerDetailArray[index].email}</td>
-                                            <td><button type="button" onClick={() => { setUpdatePet(data) }} data-bs-toggle="modal" data-bs-target="#exampleModal2"
-                                                class="btn btn-success ms-3"><i class="bi bi-pencil-square"></i></button>
-                                                <button type="button" onClick={() => { setDeletePet(data) }} data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-                                                    class="btn btn-danger ms-3"><i class="bi bi-trash3"></i></button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody> */}
-                            </table>
+                                ))}
+                            </tbody>
+                        </table>
+                        ))}
+                            
                         </div>
 
                     </div>
