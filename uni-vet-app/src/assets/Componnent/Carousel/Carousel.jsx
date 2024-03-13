@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from "react-router-dom";
 
 const Carousel = () => {
   return (
@@ -16,7 +17,7 @@ const Carousel = () => {
                     <div className="carousel-caption text-start">
                       <h1>Give Your Pet Best Care</h1>
                       <p className="opacity-75">We are ready to give our 20+ years of experince to save your pet</p>
-                      <p><a className="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+                      <p><Link to="/customerSignUp" className="btn btn-lg btn-primary mx-2" href="#">Sign in today</Link><Link to="/apointment" className="btn btn-lg btn-primary " href="#">Appoinment</Link></p>
                     </div>
                   </div>
                 </div>
