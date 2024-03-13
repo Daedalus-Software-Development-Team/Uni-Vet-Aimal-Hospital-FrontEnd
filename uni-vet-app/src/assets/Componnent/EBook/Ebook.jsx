@@ -3,8 +3,6 @@ import './EBook.css';
 import ebook from '../../img/ebook.png'
 
 
-
-
 export default function Ebook() {
     return (
         <div className="container-fluid">
@@ -86,7 +84,6 @@ export default function Ebook() {
 
                             </div>
                         </div>
-
 
 
 
