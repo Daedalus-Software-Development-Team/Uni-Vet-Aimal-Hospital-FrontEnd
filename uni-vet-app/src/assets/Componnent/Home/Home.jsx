@@ -6,10 +6,13 @@ import MainPuppy from '../../img/MainPuppy.png'
 import './Home.css';
 import NavBar from '../NavBar/NavBar'
 import Carousel from '../Carousel/Carousel'
+import { useParams } from 'react-router-dom'
 
 const Home = () => {
   const [date, setDate] = useState('ff');
   const [time, setTime] = useState('ff');
+  const {positionwithid}=useParams();
+
   useEffect(() => {
     const getDate = async () => {
       try {
@@ -28,11 +31,14 @@ const Home = () => {
 
     getDate();
   }, [])
+
+
+
   return (
     <div className='container-fluid'>
       <div className="row">
         <div className="col-12">
-        <NavBar  />
+        <NavBar position={positionwithid?(positionwithid.split("-")[0]):''}/>
         </div>
         <div className="col-12">
         <Carousel/>
